@@ -4,16 +4,25 @@
  * and open the template in the editor.
  */
 
-
+var caca = "sin inicializar";
 var TextManager = Class.extend({
-    init: function(pathName){
-        this._PathName = pathName;
+    init: function(){
+        this._Text = "No current text.";
     },
-    setPathName: function(pPathName){
-        this._PathName = pPathName;
+    getText: function(){
+        return this._Text;
     },
-    getPathName: function(){
-        return this._PathName;
+    setText: function(pText){
+        this._Text = pText;
+    },
+    getAllText: function(file){
+        var reader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = function(e) { 
+	    var contents = e.target.result;
+            alert( "Got the file!");
+            caca= contents.toString();
+        };
     }
 });
 

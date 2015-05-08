@@ -23,11 +23,10 @@
         <h1>Proyecto 2 - Josefina la Cantora</h1>
         <h2>Josue Arrieta Salas - Adrian Lopez Quesada</h2>
     </div>
-    <p> Enter a phrase that is unique within the story: </p>
+    <input type="file" id="INPfile" />
+    <p id="LBLInformation"> Enter a phrase that is unique within the story (after it is loaded): </p>
     <input type="text" name="data" id="TXTPhraseToLoad"></input>
     <button type="button" id="BTNLoad">LOAD</button><br /><br />
-    
-
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
@@ -44,7 +43,8 @@
       r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
       ga('create','UA-XXXXX-X');ga('send','pageview');
     </script>
-
+        <script src="scripts/ClassTemplate.js"></script>
+        <script src="scripts/TextManager.js"></script>
         <!-- build:js({app,.tmp}) scripts/main.js -->
         <script src="scripts/main.js"></script>
         <!-- endbuild -->
