@@ -26,23 +26,45 @@ var TextManager = Class.extend({
             caca= contents.toString();
         };
     },
-    getNextWords: function(pIndexToStart){
+    getNWords: function(pArray,pIndexToStart, pNumberOfWords , pDirection){//pDirection must be an integer with the rate that the index will be moved
+        var numberOfProcessedWords = 0;
+        var currentIndex = pIndexToStart - 1;//so it doesnt take into account the first letter of the phrase
+        var currentWord = "";
+        var currentSymbol = "";
+        while(numberOfProcessedWords < pNumberOfWords && currentIndex < this._Text.length && currentIndex >= 0){
+            currentSymbol = this._Text.charAt(currentIndex);
+            if (currentSymbol !== "." && currentSymbol !== "," && currentSymbol !== ":" && currentSymbol !=="-"){
+                if(currentSymbol === " "){
+                    if (currentWord !==" " && currentWord.length!==0){
+                        if (pDirection < 0){//we must reverse the word , because it was read backwards
+                            alert("palabra antes del if " + currentWord);
+                            currentWord = currentWord.split('').reverse().join('');
+                            alert("palabra despues del if " + currentWord);
+                        }
+                        pArray.push(currentWord.toLowerCase());                        
+                        numberOfProcessedWords++;
+                    }
+                    currentWord = "";
+                }
+                else{
+                    currentWord += currentSymbol;
+                }
+            }
+            currentIndex+=pDirection;
+        }
+    },
+    /*getPreviousWords: function(pIndexToStart, pNumberOfWords){
         var numberOfProcessedWords = 0;
         var currentIndex = pIndexToStart;
         var listOfWords = [];
         var currentWord = "";
         var currentSymbol = "";
-        while(numberOfProcessedWords < AMOUNT_OF_WORDS && currentIndex < this._Text.length){
+        while(numberOfProcessedWords < pNumberOfWords && currentIndex >= 0){
             currentSymbol = this._Text.charAt(currentIndex);
             if (currentSymbol !== "." && currentSymbol !== "," && currentSymbol !== ":" && currentSymbol !=="-"){
                 if(currentSymbol === " "){
-                    if (currentWord !==" " && currentWord !== "\n" && currentWord.length!==0){
-                        currentWord.replace(/^\s+|\s+$/g, '');
-                        currentWord.trim();
-                        currentWord.replace(/(\r\n|\n|\r)/gm,"");
-                        currentWord.replace(/[\n]/g, "");
-                        listOfWords.push(currentWord.toLowerCase());
-                        
+                    if (currentWord !==" " && currentWord.length!==0){
+                        listOfWords.push(currentWord.toLowerCase());                        
                         numberOfProcessedWords++;//puede ir abajo y tomara 200 exactas
                     }
                     currentWord = "";
@@ -51,20 +73,17 @@ var TextManager = Class.extend({
                     currentWord += currentSymbol;
                 }
             }
-            currentIndex++;
+            currentIndex--;
         }
         return listOfWords;
-    },
-    getPreviousWords: function(){
-        
-    },
+    },*/
     isValidSymbol : function(pSymbol){
         return(this._UnvalidSymbols.indexOf(pSymbol) > -1);
     },
     isValidWord : function (pWord){
         return(this._NonSignificantWords.indexOf(pWord) > -1);
-    },
-    deleteUnsignificantWords : function (pArrayOfWords){
+    }
+    /*deleteUnsignificantWords : function (pArrayOfWords){
         for(var indexOfArray = 0 ; indexOfArray<pArrayOfWords.length; indexOfArray++){
             if (pArrayOfWords[indexOfArray] === " "){
                 pArrayOfWords.splice(indexOfArray, 1);
@@ -73,7 +92,7 @@ var TextManager = Class.extend({
             alert("hace el ciclo");
         }
         return pArrayOfWords;
-    }
+    }*/
     
 });
 
