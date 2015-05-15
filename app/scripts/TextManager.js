@@ -33,13 +33,14 @@ var TextManager = Class.extend({
         var currentSymbol = "";
         while(numberOfProcessedWords < pNumberOfWords && currentIndex < this._Text.length && currentIndex >= 0){
             currentSymbol = this._Text.charAt(currentIndex);
-            if (currentSymbol !== "." && currentSymbol !== "," && currentSymbol !== ":" && currentSymbol !=="-"){
+            if (currentSymbol ==='\n'){//enter case
+                currentWord="";
+            }
+            if (currentSymbol !== "." && currentSymbol !== "," && currentSymbol !== ":" && currentSymbol !=="-" && currentSymbol !=='\n'){
                 if(currentSymbol === " "){
                     if (currentWord !==" " && currentWord.length!==0){
                         if (pDirection < 0){//we must reverse the word , because it was read backwards
-                            alert("palabra antes del if " + currentWord);
                             currentWord = currentWord.split('').reverse().join('');
-                            alert("palabra despues del if " + currentWord);
                         }
                         pArray.push(currentWord.toLowerCase());                        
                         numberOfProcessedWords++;
