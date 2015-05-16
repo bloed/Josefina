@@ -1,5 +1,5 @@
 var textManager = new TextManager();
-var ThreeDScreen= new ThreeDManagement();
+//var ThreeDScreen= new ThreeDManagement();
 $("document").ready(function() {//the first to be executed
     $("#BTNLoad").bind("click",loadPhrase);
     document.getElementById('INPfile').addEventListener('change', loadText, false);
@@ -26,12 +26,12 @@ function loadPhrase(){
     var phraseToLoad = $('#TXTPhraseToLoad').val();
     var indexOfPhraseToLoad = textManager.getText().indexOf(phraseToLoad);
     var listOfWords = [];
-    textManager.getNWords(listOfWords , indexOfPhraseToLoad , AMOUNT_OF_WORDS , 1);
+    textManager.getNWords(indexOfPhraseToLoad , AMOUNT_OF_WORDS , 1);
     alert("Get next :");
-    alert (arrayToString(listOfWords) + "con un total de "  + listOfWords.length + " palabras");
-    textManager.getNWords(listOfWords , indexOfPhraseToLoad , AMOUNT_OF_WORDS , -1);
+    alert (arrayToString(textManager.getListOfWords()));
+    textManager.getNWords(indexOfPhraseToLoad , AMOUNT_OF_WORDS , -1);
     alert("Get before + Get next");
-    alert (arrayToString(listOfWords) + "con un total de "  + listOfWords.length + " palabras");
+    alert (arrayToString(textManager.getListOfWords()));
 }
 function arrayToString(pArray){
     var result="";

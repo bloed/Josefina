@@ -9,7 +9,8 @@ var TextManager = Class.extend({
     init: function(){
         this._Text = "No current text.";
         this._UnvalidSymbols = [".",",",";","-","?","¿","!","¡","\n"];
-        this._NonSignificantWords = [" "];
+        this._NonSignificantWords = [" ","el","la"];
+        this._ListOfWords = [];
     },
     getText: function(){
         return this._Text;
@@ -17,11 +18,11 @@ var TextManager = Class.extend({
     setText: function(pText){
         this._Text = pText;
     },
-    test1: function(){
-        this.test2();
+    getListOfWords: function(){
+        return this._ListOfWords;
     },
-    test2: function(){
-        alert("HELOOO");
+    setListOfWords: function(pNewList){
+        this._ListOfWords = pNewList;
     },
     getAllText: function(file){
         var reader = new FileReader();
@@ -32,7 +33,7 @@ var TextManager = Class.extend({
             caca= contents.toString();
         };
     },
-    getNWords: function(pArray,pIndexToStart, pNumberOfWords , pDirection){//pDirection must be an integer with the rate that the index will be moved
+    getNWords: function(pIndexToStart, pNumberOfWords , pDirection){//pDirection must be an integer with the rate that the index will be moved
         var numberOfProcessedWords = 0;
         var currentIndex = pIndexToStart - 1;//so it doesnt take into account the first letter of the phrase
         var currentWord = "";
@@ -48,7 +49,7 @@ var TextManager = Class.extend({
                         if (pDirection < 0){//we must reverse the word , because it was read backwards
                             currentWord = currentWord.split('').reverse().join('');
                         }
-                        pArray.push(currentWord.toLowerCase());                        
+                        this._ListOfWords.push(currentWord.toLowerCase());                        
                         numberOfProcessedWords++;
                     }
                     currentWord = "";
@@ -89,7 +90,7 @@ var TextManager = Class.extend({
     },
     isValidWord : function (pWord){
         return(this._NonSignificantWords.indexOf(pWord) > -1);
-    }
+    },
     /*deleteUnsignificantWords : function (pArrayOfWords){
         for(var indexOfArray = 0 ; indexOfArray<pArrayOfWords.length; indexOfArray++){
             if (pArrayOfWords[indexOfArray] === " "){
@@ -100,6 +101,14 @@ var TextManager = Class.extend({
         }
         return pArrayOfWords;
     }*/
-    
+    calculateTotalDistance: function (pWord){
+        
+    },
+    calculateWeight: function(pWord){
+         
+    },
+    calculateDistance : function (pWord){
+        
+    }
 });
 
