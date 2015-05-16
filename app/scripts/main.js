@@ -16,6 +16,7 @@ function loadText(evt){
         $("#BTNLoad").toggle();
         $("#TXTPhraseToLoad").toggle();
         $("#INPfile").toggle();
+        $('#TXTPhraseToLoad').val("Nuestra cantora");
     } 
     else { 
         alert("Couldnt load the file.");
@@ -24,14 +25,19 @@ function loadText(evt){
 function loadPhrase(){
     textManager.setText(caca);
     var phraseToLoad = $('#TXTPhraseToLoad').val();
-    var indexOfPhraseToLoad = textManager.getText().indexOf(phraseToLoad);
-    var listOfWords = [];
+    var indexOfPhraseToLoad = textManager.findIndexOfPhrase(phraseToLoad);
     textManager.getNWords(indexOfPhraseToLoad , AMOUNT_OF_WORDS , 1);
-    alert("Get next :");
+    alert("Get next : " );
     alert (arrayToString(textManager.getListOfWords()));
     textManager.getNWords(indexOfPhraseToLoad , AMOUNT_OF_WORDS , -1);
-    alert("Get before + Get next");
+    alert("Get before + Get next " );
     alert (arrayToString(textManager.getListOfWords()));
+    //prueba de calcular disdtancia, distancia total y peso
+    //alert(textManager.calculateDistance("josefina"));
+    //alert(textManager.calculateAverageOfDistances());
+    //alert(textManager.calculateTotalDistance("Josefina"));
+    //alert(textManager.calculateWeight("cantora"));
+    
 }
 function arrayToString(pArray){
     var result="";

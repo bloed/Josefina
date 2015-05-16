@@ -1,5 +1,5 @@
 // constants
-var AMOUNT_OF_WORDS = 100;
+var AMOUNT_OF_WORDS = 150;
 var MAX_AMOUNT_OF_INDIVIDUALS = 1000;
 
 
