@@ -17,6 +17,12 @@ var TextManager = Class.extend({
     setText: function(pText){
         this._Text = pText;
     },
+    test1: function(){
+        this.test2();
+    },
+    test2: function(){
+        alert("HELOOO");
+    },
     getAllText: function(file){
         var reader = new FileReader();
         reader.readAsText(file);
