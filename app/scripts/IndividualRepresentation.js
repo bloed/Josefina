@@ -13,16 +13,16 @@ var IndividualRepresentation= Class.extend({
 		 var minRange=0;
 		 var maxRange=0;
 		 var bitsMaxNumber=Math.pow(2, AMOUNT_OF_BITS)-1;
-		 for(var index =0; index <arrayLength-1; index++){
+		 for(var index =0; index <arrayLength-1; index++){//¿ 'arrayLenght' nadamas, sin el -1 ?
 		 	maxRange=Math.floor((pListOfIndividuals[index].getWeigth()+pListOfIndividuals[index].getDistance())*bitsMaxNumber/totalValues);
 
 		 	this._ChromosomaticRepresentation.push( {word: pListOfIndividuals[index].getWordString(), minValue: minRange,
-		 	maxValue: (minRange+maxRange)})
+		 	maxValue: (minRange+maxRange)});
 		 	minRange+=maxRange+1;
 		 }
 
-		  	this._ChromosomaticRepresentation.push( {word: pListOfIndividuals[pListOfIndividuals.length-1].getWordString(), 
-		  		minValue: minRange, maxValue: bitsMaxNumber})
+		  	this._ChromosomaticRepresentation.push( {word: pListOfIndividuals[pListOfIndividuals.length-1].getWordString(),//?? 
+		  		minValue: minRange, maxValue: bitsMaxNumber});
 
 		 for(var index=0; index<this._ChromosomaticRepresentation.length;index++){
 		 	alert(this._ChromosomaticRepresentation[index].word + this._ChromosomaticRepresentation[index].minValue + "-" +
@@ -31,7 +31,10 @@ var IndividualRepresentation= Class.extend({
 	},
 	getWordString: function(){
 		//return the string of the new individual
-	}
+	},
+        getChromosomaticRepresentation: function(){
+            return this._ChromosomaticRepresentation;
+        }
 });
 
 
