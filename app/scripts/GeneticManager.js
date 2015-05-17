@@ -1,13 +1,20 @@
 var GeneticManager= Class.extend({
-    init: function(){
+    init: function(pTextManager){
         this._Population = []; 
         this._KeepReproducing = true;
         this._IndividualRepresentation = new IndividualRepresentation();
         this._GeneticOperator = new GeneticOperator();
+        this._TextManager= pTextManager; //needed for methods to calculate values of words, it may go somehwere else though
     },
-    createInitialPopultaion: function(pListOfWords){
-        //creates new Individuals 
-        //needs to call calculateChromosomatic Representation
+    createInitialPopulation: function(pListOfWords){
+        for(var indexOfArray=0; indexOfArray<pListOfWords.length; indexOfArray++){
+            var individual= new Individual(this._TextManager.calculateWeight(pListOfWords[indexOfArray]),
+                this._TextManager.calculateDistance(pListOfWords[indexOfArray]),
+                this._TextManager.calculateTotalDistance(pListOfWords[indexOfArray]), pListOfWords[indexOfArray]);
+            this._Population.push(individual);
+            
+        }
+        this._IndividualRepresentation.calculateChromosomaticRepresentation(this._Population); 
     },
     replaceCurrentPopulation: function (pListOfIndividuals){
         this._Population = pListOfIndividuals;

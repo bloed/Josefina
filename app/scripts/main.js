@@ -1,4 +1,5 @@
 var textManager = new TextManager();
+var geneticManager = new GeneticManager(textManager);
 //var ThreeDScreen= new ThreeDManagement();
 $("document").ready(function() {//the first to be executed
     $("#BTNLoad").bind("click",loadPhrase);
@@ -37,6 +38,8 @@ function loadPhrase(){
     //alert(textManager.calculateAverageOfDistances());
     //alert(textManager.calculateTotalDistance("Josefina"));
     //alert(textManager.calculateWeight("cantora"));
+    geneticManager.createInitialPopulation(textManager.getListOfWords());
+
     
 }
 function arrayToString(pArray){
