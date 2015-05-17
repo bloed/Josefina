@@ -27,9 +27,39 @@ var GeneticManager= Class.extend({
     },
     createNewGenerations: function(){
         //calls isFit, cross and mutation, and replace the current generation
+        var maxWeigth=0;
+        var maxDistance=0;
+
+        for(var indexOfArray=0; indexOfArray<this._Population.length; indexOfArray++){ //values for fitness
+            if(this._Population[indexOfArray].getWeigth()>maxWeigth){
+                maxWeigth=this._Population[indexOfArray].getWeigth();
+            }
+            if(this._Population[indexOfArray].getDistance()>maxDistance){
+                maxDistance=this._Population[indexOfArray].getDistance();
+            }
+        }
+
+        for (var indexOfArray=0; indexOfArray<this._Population.length; indexOfArray++){
+            if(this.isFit(this._Population[indexOfArray], maxWeigth, maxDistance)){
+                //Yo diria agregarlos a una lista de fits para la siguiente generacion, respcto al cruce 
+                //no tengo idea de cuantos cruces hacer y con que criterio (random, lineal, todos con todos?)
+            }
+        }
+
     },
-    isFit : function(pIndividual){
+    isFit : function(pIndividual, pMaxWeigth, pMaxDistance){
         //true if its fit, false if it isn´t
+        if(pIndividual && pMaxWeigth && pMaxDistance){
+
+            var percentage=(pIndividual.getWeigth()*WEIGTH_PERCENTAGE/pMaxWeigth)+
+            (pIndividual.getDistance()*DISTANCE_PERCENTAGE/pMaxDistance);
+            if(percentage > FITNESS_PERCENTAGE)
+                return true;
+            else
+                return false;
+
+        }else
+            return false;
     }
 });
 
