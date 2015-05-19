@@ -15,6 +15,12 @@ var GeneticManager= Class.extend({
             
         }
         this._IndividualRepresentation.calculateChromosomaticRepresentation(this._Population);
+        var result="";
+        for(var indexOfArray = 0 ; indexOfArray<this._Population.length; indexOfArray++){
+            result += this._Population[indexOfArray].getWordString()+ "  " + this._Population[indexOfArray].getWeigth()+ " "+this._Population[indexOfArray].getDistance();
+            result+=" - ";
+        }
+        alert(result);
         //this.mainReproduct();//main de la vara
     },
     replaceCurrentPopulation: function (pListOfIndividuals){
@@ -56,11 +62,23 @@ var GeneticManager= Class.extend({
 
         for (var indexOfArray=0; indexOfArray<this._Population.length; indexOfArray++){
             if(this.isFit(this._Population[indexOfArray], maxWeigth, maxDistance)){
-                //Yo diria agregarlos a una lista de fits para la siguiente generacion, respcto al cruce 
-                //no tengo idea de cuantos cruces hacer y con que criterio (random, lineal, todos con todos?)
+                
                 fitList.push(this._Population[indexOfArray]);
             }
         }
+
+        var newIndividuals=[];
+
+        for(var reproductedIndividuals = 0; reproductedIndividuals < INDIVIDUALS_PER_REPRODUCTION; reproductedIndividuals++){
+            var father=fitList[Math.floor(Math.random()*(fitList.length-1))];
+            var mother=fitList[Math.floor(Math.random()*(fitList.length-1))];
+            var newBorn= this._IndividualRepresentation.getIndividual(this._GeneticOperator.cross(father,mother));
+            //alert(newBorn.getWordString());
+            newIndividuals.push(newBorn);
+        }
+
+        return fitList.concat(newIndividuals);
+
 
     },
     isFit : function(pIndividual, pMaxWeigth, pMaxDistance){
@@ -77,13 +95,74 @@ var GeneticManager= Class.extend({
             return false;
     },
     mainReproduct : function(){
+        this.createInitialPopulation(this._TextManager.getListOfWords());
         while(this._KeepReproducing){
             if(this.verifyStop()){
                 this.stop();
+
             }
             else{
                 //create new generation, replace, cross, etc.
+                this.replaceCurrentPopulation(this.createNewGenerations());
             }
+        }
+        this.getFinalIndividuals();
+    },
+    getFinalIndividuals: function(){
+        var result="";
+        for(var indexOfArray = 0 ; indexOfArray<this._Population.length; indexOfArray++){
+            result += this._Population[indexOfArray].getWordString();
+            result+=" - ";
+        }
+        alert(result);
+        var listOfIndividuals = [];
+        var individualFound= false;
+        for (var indexOfArray=0; indexOfArray<this._Population.length; indexOfArray++){
+            for(var indexSecondArray = 0; indexSecondArray< listOfIndividuals.length; indexSecondArray++){
+                if(this._Population[indexOfArray].getWordString()===listOfIndividuals[indexSecondArray].individual.getWordString()){
+                    listOfIndividuals[indexSecondArray].amount++;
+                    
+                    individualFound=true;
+                    break;
+                }
+            }
+            if(individualFound){
+                individualFound=false;
+            }else{
+                listOfIndividuals.push({individual: this._Population[indexOfArray], amount: 1});
+            }
+            /*var index = listOfIndividuals.indexOf(this._Population[indexOfArray]);
+            if (index !=-1)
+                amountOfIndividuals[index]++;
+            else{
+                listOfIndividuals.push(this._Population[indexOfArray]);
+                amountOfIndividuals.push(1);
+            }*/
+        }
+        result=" ";
+        for(var indexOfArray = 0 ; indexOfArray<listOfIndividuals.length; indexOfArray++){
+            result += listOfIndividuals[indexOfArray].individual.getWordString()+ "  " + listOfIndividuals[indexOfArray].amount;
+            result+=" - ";
+        }
+        alert(result);
+    
+    /*     for(var i=0; i<listOfIndividuals.length; i++){
+            alert(listOfIndividuals[i].individual.getWordString() + " "+ listOfIndividuals[i].amount);
+        }*/
+        listOfIndividuals.sort(function compare(indivudalA,individualB) {
+            if (indivudalA.amount < individualB.amount)
+                return -1;
+            if (indivudalA.amount > individualB.amount)
+                return 1;
+            return 0;
+            }
+        );
+       
+
+    },
+    print: function(){
+        for(var i=0; i<0; i++){
+            alert(this._Population)
         }
     }
 });

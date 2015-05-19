@@ -38,7 +38,7 @@ function loadPhrase(){
     //alert(textManager.calculateAverageOfDistances());
     //alert(textManager.calculateTotalDistance("Josefina"));
     //alert(textManager.calculateWeight("cantora"));
-    geneticManager.createInitialPopulation(textManager.getListOfWords());
+    geneticManager.mainReproduct();
 
     
 }

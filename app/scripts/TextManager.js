@@ -3,7 +3,7 @@ var TextManager = Class.extend({
     init: function(){
         this._Text = "No current text.";
         this._UnvalidSymbols = [".",",",";","-","?","¿","!","¡",'\n',":","_"];
-        this._NonSignificantWords = [" ","el","la","se","a","o","no","ha","en","de","es","y","los","las"];
+        this._NonSignificantWords = [" ","el","la","se","a","o","no","ha","en","de","es","y","los","las", "que", "una"];
         this._ListOfWords = [];
     },
     getText: function(){

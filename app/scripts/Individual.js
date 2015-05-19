@@ -21,7 +21,7 @@ var Individual= Class.extend({
     setTotalDistance: function(pTotalDistance){
     	this._TotalDistance = pTotalDistance;
     },
-    gtTotalDistance: function(){
+    getTotalDistance: function(){
     	return this._TotalDistance;
     },
     getWordRepresentation: function(){

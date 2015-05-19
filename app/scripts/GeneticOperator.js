@@ -15,13 +15,12 @@ var GeneticOperator= Class.extend({
     cross:function (pFather, pMother){
         //variable point
         var crossPoint=Math.floor((Math.random()*(AMOUNT_OF_BITS-1))+1);
-        alert(crossPoint);
         pFather=pFather>>>(AMOUNT_OF_BITS-crossPoint);
         pFather= pFather<<(AMOUNT_OF_BITS-crossPoint);
         var motherMask=pMother>>>(AMOUNT_OF_BITS-crossPoint);
         motherMask=motherMask<<(AMOUNT_OF_BITS-crossPoint);
         pMother=pMother^motherMask;
-        this.mutation(pFather+pMother);
+        return this.mutation(pFather+pMother);
     }
 });
 
