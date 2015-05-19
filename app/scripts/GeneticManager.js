@@ -128,7 +128,7 @@ var GeneticManager= Class.extend({
             }
             if(individualFound){
                 individualFound=false;
-            }else{
+            }else{//only happens for the first appearance
                 listOfIndividuals.push({individual: this._Population[indexOfArray], amount: 1});
             }
             /*var index = listOfIndividuals.indexOf(this._Population[indexOfArray]);
