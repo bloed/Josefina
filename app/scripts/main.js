@@ -35,10 +35,10 @@ function loadPhrase(){
     alert (arrayToString(textManager.getListOfWords()));
     //prueba de calcular disdtancia, distancia total y peso
     //alert(textManager.calculateDistance("josefina"));
-    //alert(textManager.calculateAverageOfDistances());
+    alert(textManager.calculateAverageOfDistances());
     //alert(textManager.calculateTotalDistance("Josefina"));
     //alert(textManager.calculateWeight("cantora"));
-    geneticManager.mainReproduct();
+    //geneticManager.mainReproduct();
 
     
 }

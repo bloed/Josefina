@@ -2,8 +2,8 @@ var caca = "";
 var TextManager = Class.extend({
     init: function(){
         this._Text = "No current text.";
-        this._UnvalidSymbols = [".",",",";","-","?","¿","!","¡",'\n',":","_"];
-        this._NonSignificantWords = [" ","el","la","se","a","o","no","ha","en","de","es","y","los","las", "que", "una"];
+        this._UnvalidSymbols = [".",",",";","-","?","¿","!","¡",'\n',":","_","(",")"];
+        this._NonSignificantWords = [" ","el","la","se","a","o","no","ha","en","de","es","y","los","las", "que", "una","esto","esta","si"];
         this._ListOfWords = [];
     },
     getText: function(){
@@ -122,11 +122,17 @@ var TextManager = Class.extend({
          return totalOfAppeareances;
     },
     calculateAverageOfDistances : function(){
-        var numberOfWords = this._ListOfWords.length;
         var totalDistance = 0;
+        var processedWords = [];
         for(var indexOfArray = 0 ; indexOfArray < this._ListOfWords.length; indexOfArray++){
-             totalDistance += this.calculateDistance(this._ListOfWords[indexOfArray]);
+             if (processedWords.indexOf(this._ListOfWords[indexOfArray]) === -1){
+                 totalDistance += this.calculateDistance(this._ListOfWords[indexOfArray]);//the word was not procesed yet
+                 processedWords.push(this._ListOfWords[indexOfArray]);
+             }
         }
+        var numberOfWords = processedWords.length;
+        alert(processedWords.length);
+        alert(this._ListOfWords.length);
         return Math.floor(totalDistance/numberOfWords);//integer division
         //return totalDistance/numberOfWords;
     }
