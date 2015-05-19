@@ -37,7 +37,9 @@ var GeneticManager= Class.extend({
                 listOfDifferentIndividuals.push(this._Population[indexOfArray].getWordString());
             }
         }
-        if (this._Population.length > MIN_AMOUNT_OF_INDIVIDUALS && listOfDifferentIndividuals.length > MIN_DIFFERENT_TYPE_OF_INDIVIDUALS){
+        //alert("poblacion total : " + this._Population.length);
+        if ((this._Population.length > MIN_AMOUNT_OF_INDIVIDUALS && listOfDifferentIndividuals.length > MIN_DIFFERENT_TYPE_OF_INDIVIDUALS)
+        ||(this._Population.length>2000)){
             return true;
         }
         else{
@@ -59,24 +61,26 @@ var GeneticManager= Class.extend({
                 maxDistance=this._Population[indexOfArray].getDistance();
             }
         }
-
+        //alert( "max weight " + maxWeigth + " maxDistance " + maxDistance);
         for (var indexOfArray=0; indexOfArray<this._Population.length; indexOfArray++){
             if(this.isFit(this._Population[indexOfArray], maxWeigth, maxDistance)){
                 
                 fitList.push(this._Population[indexOfArray]);
             }
         }
-
+        //alert("tenemos un total fits de : " + fitList.length + "  que vienen de una poblacion de : " + this._Population.length);
         var newIndividuals=[];
-
+        
         for(var reproductedIndividuals = 0; reproductedIndividuals < INDIVIDUALS_PER_REPRODUCTION; reproductedIndividuals++){
-            var father=fitList[Math.floor(Math.random()*(fitList.length-1))];
-            var mother=fitList[Math.floor(Math.random()*(fitList.length-1))];
-            var newBorn= this._IndividualRepresentation.getIndividual(this._GeneticOperator.cross(father,mother));
+            var father=fitList[Math.floor(Math.random()*(fitList.length-1))].getWordString();
+            var fatherNumber = this._IndividualRepresentation.getRepresentation(father);
+            var mother=fitList[Math.floor(Math.random()*(fitList.length-1))].getWordString();
+            var motherNumber = this._IndividualRepresentation.getRepresentation(mother);
+            var newBorn= this._IndividualRepresentation.getIndividual(this._GeneticOperator.cross(fatherNumber,motherNumber));
             //alert(newBorn.getWordString());
             newIndividuals.push(newBorn);
         }
-
+        //alert("tenemos un total nuevos individuos de :" + newIndividuals.length);
         return fitList.concat(newIndividuals);
 
 
@@ -84,9 +88,15 @@ var GeneticManager= Class.extend({
     isFit : function(pIndividual, pMaxWeigth, pMaxDistance){
         //true if its fit, false if it isn´t
         if(pIndividual && pMaxWeigth && pMaxDistance){
+            if (pMaxWeigth ===0){
+                pMaxWeigth=1;
+            }
+            if (pMaxDistance ===0){
+                pMaxDistance=1;
+            }
             var percentage=(pIndividual.getWeigth()*WEIGTH_PERCENTAGE/pMaxWeigth)+
             (pIndividual.getDistance()*DISTANCE_PERCENTAGE/pMaxDistance);
-            if(percentage > FITNESS_PERCENTAGE)
+            if(percentage >= FITNESS_PERCENTAGE)
                 return true;
             else
                 return false;
@@ -109,6 +119,7 @@ var GeneticManager= Class.extend({
         this.getFinalIndividuals();
     },
     getFinalIndividuals: function(){
+        alert("total de mutuaciones " + totalMutuacion);
         var result="";
         for(var indexOfArray = 0 ; indexOfArray<this._Population.length; indexOfArray++){
             result += this._Population[indexOfArray].getWordString();
@@ -140,29 +151,29 @@ var GeneticManager= Class.extend({
             }*/
         }
         result=" ";
-        for(var indexOfArray = 0 ; indexOfArray<listOfIndividuals.length; indexOfArray++){
-            result += listOfIndividuals[indexOfArray].individual.getWordString()+ "  " + listOfIndividuals[indexOfArray].amount;
-            result+=" - ";
-        }
-        alert(result);
+        
     
     /*     for(var i=0; i<listOfIndividuals.length; i++){
             alert(listOfIndividuals[i].individual.getWordString() + " "+ listOfIndividuals[i].amount);
         }*/
         listOfIndividuals.sort(function compare(indivudalA,individualB) {
             if (indivudalA.amount < individualB.amount)
-                return -1;
-            if (indivudalA.amount > individualB.amount)
                 return 1;
+            if (indivudalA.amount > individualB.amount)
+                return -1;
             return 0;
             }
         );
-       
+       for(var indexOfArray = 0 ; indexOfArray<listOfIndividuals.length; indexOfArray++){
+            result += listOfIndividuals[indexOfArray].individual.getWordString()+ "  " + listOfIndividuals[indexOfArray].amount;
+            result+=" - ";
+        }
+        alert(result);
 
     },
     print: function(){
         for(var i=0; i<0; i++){
-            alert(this._Population)
+            alert(this._Population);
         }
     }
 });

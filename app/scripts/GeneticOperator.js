@@ -9,6 +9,7 @@ var GeneticOperator= Class.extend({
         	var mutationPoint=Math.floor(Math.random()*(AMOUNT_OF_BITS-1));
         	var bitMask= 1<<mutationPoint;
         	pIndividual=pIndividual^bitMask;
+                totalMutuacion++;
         }
         return pIndividual;
     },

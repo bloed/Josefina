@@ -43,6 +43,14 @@ var IndividualRepresentation= Class.extend({
 			}
 		}
 	},
+        getRepresentation: function(pWord){
+            for( var indexChromosome = 0; indexChromosome<this._ChromosomaticRepresentation.length; indexChromosome++){
+                 if(this._ChromosomaticRepresentation[indexChromosome].word===pWord){
+                    
+                    return this._ChromosomaticRepresentation[indexChromosome].minValue;
+                 }
+        }
+ },
     getChromosomaticRepresentation: function(){
     	return this._ChromosomaticRepresentation;
     }

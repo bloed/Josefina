@@ -3,8 +3,10 @@ var TextManager = Class.extend({
     init: function(){
         this._Text = "No current text.";
         this._UnvalidSymbols = [".",",",";","-","?","¿","!","¡",'\n',":","_","(",")"];
-        this._NonSignificantWords = [" ","el","la","se","a","o","no","ha","en","de","es","y","los","las", "que", "una","esto","esta","si"];
+        this._NonSignificantWords = [" ","el","la","se","a","o","no","ha","en","de","es","y","los","las", "que", "una","esto","esta","si"
+        ,"pero","con","sin","lo","ni","le","al","nos","por","su","da","un","tan","del","desde","ante","para"];
         this._ListOfWords = [];
+        this._AverageOfDistance = 0;
     },
     getText: function(){
         return this._Text;
@@ -20,12 +22,15 @@ var TextManager = Class.extend({
     },
     getAllText: function(file){
         var reader = new FileReader();
-        reader.readAsText(file);
+        reader.readAsText(file);      
         reader.onload = function(e) { 
 	    var contents = e.target.result;
             alert( "Got the file!");
             caca= contents.toString();
+            //this.setText(contents.toString());
+            //this._Text = "holaaa";
             //this.setText(contents.toString());//no existe tendro de esta funcion
+            textManager.setText(contents.toString());
         };
     },
     getNWords: function(pIndexToStart, pNumberOfWords , pDirection){//pDirection must be an integer with the rate that the index will be moved
@@ -96,12 +101,11 @@ var TextManager = Class.extend({
          var weight = 0;
          var distanceOfWordToRelate = 0;
          var currentWordDistance = this.calculateDistance(pWord);
-         var averageDistance = this.calculateAverageOfDistances();
-         var minValue = currentWordDistance - averageDistance;
+         var minValue = currentWordDistance - this._AverageOfDistance;
          if (minValue < 0){//for those words with really low distance
              minValue = 0;
          }
-         var maxValue = currentWordDistance + averageDistance;
+         var maxValue = currentWordDistance + this._AverageOfDistance;
          for(var indexOfArray = 0 ; indexOfArray < this._ListOfWords.length; indexOfArray++){
             if (this._ListOfWords[indexOfArray] !== pWord){//so a word does not relates to itself
                 distanceOfWordToRelate = this.calculateDistance(this._ListOfWords[indexOfArray]);
@@ -109,6 +113,9 @@ var TextManager = Class.extend({
                     weight++;
                 }
             } 
+         }
+         if (weight===0){
+             weight=1;
          }
          return weight;
     },
@@ -131,9 +138,8 @@ var TextManager = Class.extend({
              }
         }
         var numberOfWords = processedWords.length;
-        alert(processedWords.length);
-        alert(this._ListOfWords.length);
-        return Math.floor(totalDistance/numberOfWords);//integer division
+        //return Math.floor(totalDistance/numberOfWords);//integer division
+        this._AverageOfDistance = Math.floor(totalDistance/numberOfWords);
         //return totalDistance/numberOfWords;
     }
 });
