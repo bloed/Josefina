@@ -4,7 +4,10 @@ var GeneticManager= Class.extend({
         this._KeepReproducing = true;
         this._IndividualRepresentation = new IndividualRepresentation();
         this._GeneticOperator = new GeneticOperator();
-        this._TextManager = pTextManager; //needed for methods to calculate values of words, it may go somehwere else though
+        this._TextManager = pTextManager;
+        this._MaxWeigth = 0;
+        this._MaxDistance = 0;
+        this._MaxTotalDistance = 0; //needed for methods to calculate values of words, it may go somehwere else though
     },
     createInitialPopulation: function(pListOfWords){
         for(var indexOfArray=0; indexOfArray<pListOfWords.length; indexOfArray++){
@@ -48,20 +51,11 @@ var GeneticManager= Class.extend({
     },
     createNewGenerations: function(){
         //calls isFit, cross and mutation, and replace the current generation
-        var maxWeigth=0;
-        var maxDistance=0;
+        this.calculateMaxValues();
         var fitList = [];//list of individuals considered fit
-        for(var indexOfArray=0; indexOfArray<this._Population.length; indexOfArray++){ //values for fitness//este for me suena que es un metodo aparte, par aque se vea mas bonito jaja
-            if(this._Population[indexOfArray].getWeigth()>maxWeigth){
-                maxWeigth=this._Population[indexOfArray].getWeigth();
-            }
-            if(this._Population[indexOfArray].getDistance()>maxDistance){
-                maxDistance=this._Population[indexOfArray].getDistance();
-            }
-        }
         //alert( "max weight " + maxWeigth + " maxDistance " + maxDistance);
         for (var indexOfArray=0; indexOfArray<this._Population.length; indexOfArray++){
-            if(this.isFit(this._Population[indexOfArray], maxWeigth, maxDistance)){
+            if(this.isFit(this._Population[indexOfArray])){
                 
                 fitList.push(this._Population[indexOfArray]);
             }
@@ -83,11 +77,11 @@ var GeneticManager= Class.extend({
 
 
     },
-    isFit : function(pIndividual, pMaxWeigth, pMaxDistance){
+    isFit : function(pIndividual){
         //true if its fit, false if it isn´t
-        if(pIndividual && pMaxWeigth && pMaxDistance){
-            var percentage=(pIndividual.getWeigth()*WEIGTH_PERCENTAGE/pMaxWeigth)+
-            (pIndividual.getDistance()*DISTANCE_PERCENTAGE/pMaxDistance);
+        if(pIndividual){
+            var percentage=(pIndividual.getWeigth()*WEIGTH_PERCENTAGE/this._MaxWeigth)+
+            (pIndividual.getDistance()*DISTANCE_PERCENTAGE/this._MaxDistance);
             if(percentage >= FITNESS_PERCENTAGE)
                 return true;
             else
@@ -153,16 +147,42 @@ var GeneticManager= Class.extend({
             return 0;
             }
         );
-        for(var indexOfArray = 0 ; indexOfArray<listOfIndividuals.length; indexOfArray++){
+        this._Population=[];
+        for(var indexOfArray = 0 ; indexOfArray < 10; indexOfArray++){
             result += listOfIndividuals[indexOfArray].individual.getWordString()+ "  " + listOfIndividuals[indexOfArray].amount;
             result+=" - ";
+            this._Population.push(listOfIndividuals[indexOfArray].individual);
         }
         alert(result);
     },
-    print: function(){
-        for(var i=0; i<0; i++){
-            alert(this._Population);
+    calculateMaxValues: function(){
+        this._MaxWeigth = 0;
+        this._MaxDistance = 0;
+        for(var indexOfArray=0; indexOfArray<this._Population.length; indexOfArray++){ //values for fitness//este for me suena que es un metodo aparte, par aque se vea mas bonito jaja
+            if(this._Population[indexOfArray].getWeigth()>this._MaxWeigth){
+                this._MaxWeigth=this._Population[indexOfArray].getWeigth();
+            }
+            if(this._Population[indexOfArray].getDistance()>this._MaxDistance){
+                this._MaxDistance=this._Population[indexOfArray].getDistance();
+            }
         }
+    },
+    calculateMaxTotalDistance: function(){
+        this._MaxTotalDistance=0;
+        for(var indexOfArray=0; indexOfArray<this._Population.length; indexOfArray++){ //values for fitness//este for me suena que es un metodo aparte, par aque se vea mas bonito jaja
+            if(this._Population[indexOfArray].getTotalDistance()>this._MaxTotalDistance){
+                this._MaxTotalDistance=this._Population[indexOfArray].getTotalDistance();
+            }
+        }
+    },
+    getMaxValues: function(){
+        this.calculateMaxValues();
+        this.calculateMaxTotalDistance();
+        var arrayValues= [this._MaxWeigth, this._MaxDistance, this._MaxTotalDistance];
+        return arrayValues;
+    },
+    getPopulation: function(){
+        return this._Population;
     }
 });
 

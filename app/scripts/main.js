@@ -1,13 +1,12 @@
 var textManager = new TextManager();
 var geneticManager = new GeneticManager(textManager);
-//var ThreeDScreen= new ThreeDManagement();
+
 $("document").ready(function() {//the first to be executed
     $("#BTNLoad").bind("click",loadPhrase);
     document.getElementById('INPfile').addEventListener('change', loadText, false);
     $("#BTNLoad").toggle();
     $("#TXTPhraseToLoad").toggle(); 
     $("#LBLInformation").toggle();
-    //ThreeDScreen.addWord("Hello World", 2.5, 2.5, 2.5, 10, 0xff3300);
 });
 function loadText(evt){
     var file = evt.target.files[0];//gets the file (and only) which was given by the user 
@@ -35,6 +34,9 @@ function loadPhrase(){
     //alert(textManager.calculateWeight("cantora"));
     textManager.calculateAverageOfDistances();
     geneticManager.mainReproduct();
+
+    var threeDScreen= new ThreeDManagement();
+    threeDScreen.insertWordsPlane(geneticManager.getPopulation(), geneticManager.getMaxValues());
 
     
 }
