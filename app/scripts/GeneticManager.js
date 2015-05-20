@@ -11,8 +11,7 @@ var GeneticManager= Class.extend({
             var individual= new Individual(this._TextManager.calculateWeight(pListOfWords[indexOfArray]),
                 this._TextManager.calculateDistance(pListOfWords[indexOfArray]),
                 this._TextManager.calculateTotalDistance(pListOfWords[indexOfArray]), pListOfWords[indexOfArray]);
-            this._Population.push(individual);
-            
+            this._Population.push(individual); 
         }
         this._IndividualRepresentation.calculateChromosomaticRepresentation(this._Population);
         var result="";
@@ -52,7 +51,6 @@ var GeneticManager= Class.extend({
         var maxWeigth=0;
         var maxDistance=0;
         var fitList = [];//list of individuals considered fit
-
         for(var indexOfArray=0; indexOfArray<this._Population.length; indexOfArray++){ //values for fitness//este for me suena que es un metodo aparte, par aque se vea mas bonito jaja
             if(this._Population[indexOfArray].getWeigth()>maxWeigth){
                 maxWeigth=this._Population[indexOfArray].getWeigth();
@@ -88,12 +86,6 @@ var GeneticManager= Class.extend({
     isFit : function(pIndividual, pMaxWeigth, pMaxDistance){
         //true if its fit, false if it isn´t
         if(pIndividual && pMaxWeigth && pMaxDistance){
-            if (pMaxWeigth ===0){
-                pMaxWeigth=1;
-            }
-            if (pMaxDistance ===0){
-                pMaxDistance=1;
-            }
             var percentage=(pIndividual.getWeigth()*WEIGTH_PERCENTAGE/pMaxWeigth)+
             (pIndividual.getDistance()*DISTANCE_PERCENTAGE/pMaxDistance);
             if(percentage >= FITNESS_PERCENTAGE)
@@ -109,7 +101,6 @@ var GeneticManager= Class.extend({
         while(this._KeepReproducing){
             if(this.verifyStop()){
                 this.stop();
-
             }
             else{
                 //create new generation, replace, cross, etc.
@@ -119,7 +110,6 @@ var GeneticManager= Class.extend({
         this.getFinalIndividuals();
     },
     getFinalIndividuals: function(){
-        alert("total de mutuaciones " + totalMutuacion);
         var result="";
         for(var indexOfArray = 0 ; indexOfArray<this._Population.length; indexOfArray++){
             result += this._Population[indexOfArray].getWordString();
@@ -132,7 +122,6 @@ var GeneticManager= Class.extend({
             for(var indexSecondArray = 0; indexSecondArray< listOfIndividuals.length; indexSecondArray++){
                 if(this._Population[indexOfArray].getWordString()===listOfIndividuals[indexSecondArray].individual.getWordString()){
                     listOfIndividuals[indexSecondArray].amount++;
-                    
                     individualFound=true;
                     break;
                 }
@@ -156,7 +145,7 @@ var GeneticManager= Class.extend({
     /*     for(var i=0; i<listOfIndividuals.length; i++){
             alert(listOfIndividuals[i].individual.getWordString() + " "+ listOfIndividuals[i].amount);
         }*/
-        listOfIndividuals.sort(function compare(indivudalA,individualB) {
+        listOfIndividuals.sort(function compare(indivudalA,individualB){
             if (indivudalA.amount < individualB.amount)
                 return 1;
             if (indivudalA.amount > individualB.amount)
@@ -164,12 +153,11 @@ var GeneticManager= Class.extend({
             return 0;
             }
         );
-       for(var indexOfArray = 0 ; indexOfArray<listOfIndividuals.length; indexOfArray++){
+        for(var indexOfArray = 0 ; indexOfArray<listOfIndividuals.length; indexOfArray++){
             result += listOfIndividuals[indexOfArray].individual.getWordString()+ "  " + listOfIndividuals[indexOfArray].amount;
             result+=" - ";
         }
         alert(result);
-
     },
     print: function(){
         for(var i=0; i<0; i++){

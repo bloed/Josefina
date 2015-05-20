@@ -1,15 +1,13 @@
 var GeneticOperator= Class.extend({
     init: function(){
-        
     },
     mutation: function(pIndividual){
         //not of a bit
         var mutationNumber = Math.floor(Math.random()*100);
         if(mutationNumber<MUTATION_PROBABILITY){   //it exists in th minority
-        	var mutationPoint=Math.floor(Math.random()*(AMOUNT_OF_BITS-1));
-        	var bitMask= 1<<mutationPoint;
-        	pIndividual=pIndividual^bitMask;
-                totalMutuacion++;
+            var mutationPoint=Math.floor(Math.random()*(AMOUNT_OF_BITS-1));
+            var bitMask= 1<<mutationPoint;
+            pIndividual=pIndividual^bitMask;
         }
         return pIndividual;
     },

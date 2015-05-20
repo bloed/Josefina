@@ -1,10 +1,9 @@
-var caca = "";
 var TextManager = Class.extend({
     init: function(){
         this._Text = "No current text.";
-        this._UnvalidSymbols = [".",",",";","-","?","¿","!","¡",'\n',":","_","(",")"];
+        this._UnvalidSymbols = [".",",",";","-","?","¿","!","¡",'\n',":","_","(",")",'"',"'"];
         this._NonSignificantWords = [" ","el","la","se","a","o","no","ha","en","de","es","y","los","las", "que", "una","esto","esta","si"
-        ,"pero","con","sin","lo","ni","le","al","nos","por","su","da","un","tan","del","desde","ante","para"];
+        ,"pero","con","sin","lo","ni","le","al","nos","por","su","da","un","tan","del","desde","ante","para","mas","tal","esa"];
         this._ListOfWords = [];
         this._AverageOfDistance = 0;
     },
@@ -26,10 +25,6 @@ var TextManager = Class.extend({
         reader.onload = function(e) { 
 	    var contents = e.target.result;
             alert( "Got the file!");
-            caca= contents.toString();
-            //this.setText(contents.toString());
-            //this._Text = "holaaa";
-            //this.setText(contents.toString());//no existe tendro de esta funcion
             textManager.setText(contents.toString());
         };
     },

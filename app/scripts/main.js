@@ -24,15 +24,10 @@ function loadText(evt){
     }
 }
 function loadPhrase(){
-    //textManager.setText(caca);
     var phraseToLoad = $('#TXTPhraseToLoad').val();
     var indexOfPhraseToLoad = textManager.findIndexOfPhrase(phraseToLoad);
     textManager.getNWords(indexOfPhraseToLoad , AMOUNT_OF_WORDS , 1);
-    //alert("Get next : " );
-    //alert (arrayToString(textManager.getListOfWords()));
     textManager.getNWords(indexOfPhraseToLoad , AMOUNT_OF_WORDS , -1);
-    //alert("Get before + Get next " );
-    //alert (arrayToString(textManager.getListOfWords()));
     //prueba de calcular disdtancia, distancia total y peso
     //alert(textManager.calculateDistance("josefina"));
     //alert(textManager.calculateAverageOfDistances());
@@ -43,6 +38,7 @@ function loadPhrase(){
 
     
 }
+/*
 function arrayToString(pArray){
     var result="";
     for(var indexOfArray = 0 ; indexOfArray<pArray.length; indexOfArray++){
@@ -50,4 +46,4 @@ function arrayToString(pArray){
         result+=" - ";
     }
     return result;
-}
+}*/

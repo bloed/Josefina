@@ -36,7 +36,6 @@ var Individual= Class.extend({
     getWordString: function(){
     	return this._WordString;
     }
-
 });
 
 
