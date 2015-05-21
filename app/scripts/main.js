@@ -37,8 +37,8 @@ function loadPhrase(){
     textManager.calculateAverageOfDistances();
     geneticManager.mainReproduct();
 
-    //var threeDScreen= new ThreeDManagement();
-    //threeDScreen.insertWordsPlane(geneticManager.getPopulation(), geneticManager.getMaxValues());
+    var threeDScreen= new ThreeDManagement();
+    threeDScreen.insertWordsPlane(geneticManager.getPopulation(), geneticManager.getMaxValues());
 
     
 }

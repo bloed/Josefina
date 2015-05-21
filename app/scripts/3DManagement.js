@@ -6,7 +6,8 @@ var ThreeDManagement=Class.extend({
         this.renderer= new THREE.WebGLRenderer();
         this.renderer.setClearColor(0xdddddd);
         this.renderer. setSize(window.innerWidth, window.innerHeight);
-        this.controls = new THREE.TrackballControls(this.camera); //movemtn through mouse actions
+        this.controls = new THREE.OrbitControls( this.camera );
+        this.controls.damping = 0.2;
 
         this.animation= function(){
             requestAnimationFrame(this.animation.bind(this));
@@ -33,7 +34,7 @@ var ThreeDManagement=Class.extend({
 
         this.animation(); 
     },
-    movementControl: function(){ //movement through keyboard
+    /*movementControl: function(){ //movement through keyboard
         document.onkeydown = function(e) {
             switch (e.keyCode) {
             case 37: //left key
@@ -57,9 +58,9 @@ var ThreeDManagement=Class.extend({
             }
         }    
         this.renderer.render(this.scene, this.camera);
-    },
+    },*/
     render: function(){
-            this.controls.update();
+            
             this.renderer.render(this.scene, this.camera);
     },
     addWord: function(pIndividual, pColor, pListValues){ //plistValues[0]=weight, [1]=distance [2]= totaldistance
