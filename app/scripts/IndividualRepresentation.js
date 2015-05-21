@@ -31,15 +31,19 @@ var IndividualRepresentation= Class.extend({
             if(pNumIndividual>=this._ChromosomaticRepresentation[indexChromosome].minValue &&
                     pNumIndividual<=this._ChromosomaticRepresentation[indexChromosome].maxValue){
                 var chromosome=this._ChromosomaticRepresentation[indexChromosome];
-                var baby=new Individual(chromosome.weigth, chromosome.distance, chromosome.totaldistance, chromosome.word);
+                var baby=new Individual(chromosome.weigth, chromosome.distance, chromosome.totaldistance, chromosome.word,pNumIndividual);
                 return baby;
             }
 	}
     },
     getRepresentation: function(pWord){
         for( var indexChromosome = 0; indexChromosome<this._ChromosomaticRepresentation.length; indexChromosome++){
-            if(this._ChromosomaticRepresentation[indexChromosome].word===pWord){ 
-                return this._ChromosomaticRepresentation[indexChromosome].minValue;
+            if(this._ChromosomaticRepresentation[indexChromosome].word===pWord){
+                var maximumRange = this._ChromosomaticRepresentation[indexChromosome].maxValue - 
+                        this._ChromosomaticRepresentation[indexChromosome].minValue;
+                var actualRange = Math.floor(Math.random() * (maximumRange + 1));
+                //alert(this._ChromosomaticRepresentation[indexChromosome].minValue + actualRange);
+                return (this._ChromosomaticRepresentation[indexChromosome].minValue + actualRange);
             }
         }   
     },

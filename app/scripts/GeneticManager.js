@@ -13,10 +13,11 @@ var GeneticManager= Class.extend({
         for(var indexOfArray=0; indexOfArray<pListOfWords.length; indexOfArray++){
             var individual= new Individual(this._TextManager.calculateWeight(pListOfWords[indexOfArray]),
                 this._TextManager.calculateDistance(pListOfWords[indexOfArray]),
-                this._TextManager.calculateTotalDistance(pListOfWords[indexOfArray]), pListOfWords[indexOfArray]);
+                this._TextManager.calculateTotalDistance(pListOfWords[indexOfArray]), pListOfWords[indexOfArray],0);
             this._Population.push(individual); 
         }
         this._IndividualRepresentation.calculateChromosomaticRepresentation(this._Population);
+        this.setRepresentationForInitialPopulation();//creates chromosomes for the first population
         var result="";
         for(var indexOfArray = 0 ; indexOfArray<this._Population.length; indexOfArray++){
             result += this._Population[indexOfArray].getWordString()+ "  " + this._Population[indexOfArray].getWeigth()+ " "+this._Population[indexOfArray].getDistance();
@@ -64,13 +65,15 @@ var GeneticManager= Class.extend({
         var newIndividuals=[];
         
         for(var reproductedIndividuals = 0; reproductedIndividuals < INDIVIDUALS_PER_REPRODUCTION; reproductedIndividuals++){
-            var father=fitList[Math.floor(Math.random()*(fitList.length-1))].getWordString();
-            var fatherNumber = this._IndividualRepresentation.getRepresentation(father);
-            var mother=fitList[Math.floor(Math.random()*(fitList.length-1))].getWordString();
-            var motherNumber = this._IndividualRepresentation.getRepresentation(mother);
-            var newBorn= this._IndividualRepresentation.getIndividual(this._GeneticOperator.cross(fatherNumber,motherNumber));
+            var father=fitList[Math.floor(Math.random()*(fitList.length-1))];
+            var fatherChromosome = father.getWordRepresentation();
+            var mother=fitList[Math.floor(Math.random()*(fitList.length-1))];
+            var motherChromosome = mother.getWordRepresentation();
+            var newBorn= this._IndividualRepresentation.getIndividual(this._GeneticOperator.cross(fatherChromosome,motherChromosome));
             //alert(newBorn.getWordString());
             newIndividuals.push(newBorn);
+            alert (father.getWordString() + " + " + mother.getWordString() + " = " + newBorn.getWordString());
+            alert (father.getWordRepresentation() + " + " + mother.getWordRepresentation() + " = " + newBorn.getWordRepresentation());
         }
         //alert("tenemos un total nuevos individuos de :" + newIndividuals.length);
         return fitList.concat(newIndividuals);
@@ -183,6 +186,12 @@ var GeneticManager= Class.extend({
     },
     getPopulation: function(){
         return this._Population;
+    },
+    setRepresentationForInitialPopulation : function(){
+        for(var indexOfArray=0; indexOfArray<this._Population.length; indexOfArray++){
+            //alert(this._Population[indexOfArray].getWordString());
+            this._Population[indexOfArray].setWordRepresentation(this._IndividualRepresentation.getRepresentation(this._Population[indexOfArray].getWordString()));
+        }
     }
 });
 

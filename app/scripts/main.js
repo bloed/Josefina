@@ -7,6 +7,8 @@ $("document").ready(function() {//the first to be executed
     $("#BTNLoad").toggle();
     $("#TXTPhraseToLoad").toggle(); 
     $("#LBLInformation").toggle();
+    
+    
 });
 function loadText(evt){
     var file = evt.target.files[0];//gets the file (and only) which was given by the user 
@@ -35,8 +37,8 @@ function loadPhrase(){
     textManager.calculateAverageOfDistances();
     geneticManager.mainReproduct();
 
-    var threeDScreen= new ThreeDManagement();
-    threeDScreen.insertWordsPlane(geneticManager.getPopulation(), geneticManager.getMaxValues());
+    //var threeDScreen= new ThreeDManagement();
+    //threeDScreen.insertWordsPlane(geneticManager.getPopulation(), geneticManager.getMaxValues());
 
     
 }

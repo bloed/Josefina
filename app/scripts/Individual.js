@@ -1,9 +1,9 @@
 var Individual= Class.extend({
-    init: function(pWeigth, pDistance, pTotalDistance, pWord){
+    init: function(pWeigth, pDistance, pTotalDistance, pWord, pWordRepresentation){
         this._Weigth = pWeigth;
         this._Distance = pDistance;
         this._TotalDistance = pTotalDistance;
-        this._WordRepresentation = 0;//chromosomatic representation
+        this._WordRepresentation = pWordRepresentation;//chromosomatic representation
         this._WordString = pWord; //need to creeate the chromosomatic representation
     },
     getWeigth: function(){
