@@ -8,33 +8,43 @@ var TextManager = Class.extend({
         this._AverageOfDistance = 0;
     },
     getText: function(){
+
         return this._Text;
     },
     setText: function(pText){
+
         this._Text = pText;
     },
     getListOfWords: function(){
+
         return this._ListOfWords;
     },
     setListOfWords: function(pNewList){
+
         this._ListOfWords = pNewList;
     },
     getAllText: function(file){
+
         var reader = new FileReader();
         reader.readAsText(file);      
-        reader.onload = function(e) { 
-	    var contents = e.target.result;
+        reader.onload = function(e) {
+
+            var contents = e.target.result;
             alert( "Got the file!");
             textManager.setText(contents.toString());
+
         };
     },
     getNWords: function(pIndexToStart, pNumberOfWords , pDirection){//pDirection must be an integer with the rate that the index will be moved
+        
         var numberOfProcessedWords = 0;
         var currentIndex = pIndexToStart - 1;//so it doesnt take into account the first letter of the phrase
         var currentWord = "";
         var currentSymbol = "";
+
         while(numberOfProcessedWords < pNumberOfWords && currentIndex < this._Text.length && currentIndex >= 0){
             currentSymbol = this._Text.charAt(currentIndex);
+
             if (currentSymbol ==='\n'){//enter case
                 currentWord="";
             }
@@ -58,12 +68,15 @@ var TextManager = Class.extend({
         }
     },
     findIndexOfPhrase : function(pPhrase){
+
         return this._Text.indexOf(pPhrase);
     },
     isValidSymbol : function(pSymbol){
+
         return(this._UnvalidSymbols.indexOf(pSymbol) === -1);//if equals -1, then the symbol is not in the list then it is a valid symbol
     },
     isValidWord : function (pWord){
+
         return(this._NonSignificantWords.indexOf(pWord) === -1);//if equals -1, then the word is not in the list then it is a valid word
     },
     calculateTotalDistance: function (pWord){
@@ -73,6 +86,7 @@ var TextManager = Class.extend({
         var currentSymbol = "";
         while(currentIndex < this._Text.length){
             currentSymbol = this._Text.charAt(currentIndex);
+
             if (currentSymbol ==='\n'){//enter case
                 currentWord="";
             }
@@ -101,6 +115,7 @@ var TextManager = Class.extend({
              minValue = 0;
          }
          var maxValue = currentWordDistance + this._AverageOfDistance;
+
          for(var indexOfArray = 0 ; indexOfArray < this._ListOfWords.length; indexOfArray++){
             if (this._ListOfWords[indexOfArray] !== pWord){//so a word does not relates to itself
                 distanceOfWordToRelate = this.calculateDistance(this._ListOfWords[indexOfArray]);
@@ -115,6 +130,7 @@ var TextManager = Class.extend({
          return weight;
     },
     calculateDistance : function (pWord){
+
         var totalOfAppeareances = 0;
          for(var indexOfArray = 0 ; indexOfArray < this._ListOfWords.length; indexOfArray++){
              if (this._ListOfWords[indexOfArray] === pWord){
@@ -124,6 +140,7 @@ var TextManager = Class.extend({
          return totalOfAppeareances;
     },
     calculateAverageOfDistances : function(){
+
         var totalDistance = 0;
         var processedWords = [];
         for(var indexOfArray = 0 ; indexOfArray < this._ListOfWords.length; indexOfArray++){
@@ -133,9 +150,7 @@ var TextManager = Class.extend({
              }
         }
         var numberOfWords = processedWords.length;
-        //return Math.floor(totalDistance/numberOfWords);//integer division
         this._AverageOfDistance = Math.floor(totalDistance/numberOfWords);
-        //return totalDistance/numberOfWords;
     }
 });
 

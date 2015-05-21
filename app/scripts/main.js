@@ -29,25 +29,10 @@ function loadPhrase(){
     var indexOfPhraseToLoad = textManager.findIndexOfPhrase(phraseToLoad);
     textManager.getNWords(indexOfPhraseToLoad , AMOUNT_OF_WORDS , 1);
     textManager.getNWords(indexOfPhraseToLoad , AMOUNT_OF_WORDS , -1);
-    //prueba de calcular disdtancia, distancia total y peso
-    //alert(textManager.calculateDistance("josefina"));
-    //alert(textManager.calculateAverageOfDistances());
-    //alert(textManager.calculateTotalDistance("Josefina"));
-    //alert(textManager.calculateWeight("cantora"));
     textManager.calculateAverageOfDistances();
     geneticManager.mainReproduct();
-
     var threeDScreen= new ThreeDManagement();
     threeDScreen.insertWordsPlane(geneticManager.getPopulation(), geneticManager.getMaxValues());
 
     
 }
-/*
-function arrayToString(pArray){
-    var result="";
-    for(var indexOfArray = 0 ; indexOfArray<pArray.length; indexOfArray++){
-        result += pArray[indexOfArray];
-        result+=" - ";
-    }
-    return result;
-}*/

@@ -1,97 +1,64 @@
-var caca = "sin inicializar";
 var ThreeDManagement=Class.extend({
     init: function(){
-        this.scene = new THREE.Scene();
-        this.camera= new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, .1, 500)
-        this.renderer= new THREE.WebGLRenderer();
-        this.renderer.setClearColor(0xdddddd);
-        this.renderer. setSize(window.innerWidth, window.innerHeight);
-        this.controls = new THREE.OrbitControls( this.camera );
-        this.controls.damping = 0.2;
+        this._scene = new THREE.Scene();
+        this._camera= new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, .1, 500)
+        this._renderer= new THREE.WebGLRenderer();
+        this._renderer.setClearColor(0xdddddd); //greyish
+        this._renderer. setSize(window.innerWidth, window.innerHeight);
+        this._controls = new THREE.OrbitControls( this._camera );
+        this._controls.damping = 0.2;
 
-        this.animation= function(){
-            requestAnimationFrame(this.animation.bind(this));
+        this._animation= function(){
+            requestAnimationFrame(this._animation.bind(this));
             this.render();
         };
         
-        //renderer.shadowMapEnabled =true; //enable shadows
-        //renderer.shadowMapSoft= true;
-        this.axis= new THREE.AxisHelper(10); //visualize axis, only for developer purposes
-        this.scene.add(this.axis);
+        var axis= new THREE.AxisHelper(10); //visualize axis, only for developer purposes
+        this._scene.add(axis);
 
         var light = new THREE.AmbientLight( 0xffffff ); // soft white light
-        this.scene.add( light );
+        this._scene.add( light );
 
         this.addFloor();
 
-        this.camera.position.x = 0;
-        this.camera.position.y = 5;
-        this.camera.position.z = 200;
-        this.camera.lookAt(this.scene.position);
+        this._camera.position.x = 0;
+        this._camera.position.y = 5;
+        this._camera.position.z = 200;
+        this._camera.lookAt(this._scene.position);
         
-        $("#webGL-container").append(this.renderer.domElement);
-        this.renderer.render(this.scene, this.camera); //refreshes the view
+        $("#webGL-container").append(this._renderer.domElement);
+        this._renderer.render(this._scene, this._camera); //refreshes the view
 
-        this.animation(); 
+        this._animation(); 
     },
-    /*movementControl: function(){ //movement through keyboard
-        document.onkeydown = function(e) {
-            switch (e.keyCode) {
-            case 37: //left key
-                this.camera.position.x-=1; 
-                break;
-            case 38: //up key
-                this.camera.position.z-=1;
-                break;
-            case 39: //right key
-                this.camera.position.x+=1;
-                break;
-            case 40: //down key
-                this.camera.position.z+=1;
-                break;
-            case 90: //"z" key
-                this.camera.position.y+=1;
-                break;
-            case 88: //"x" key
-                this.camera.position.y-=1;
-                break;
-            }
-        }    
-        this.renderer.render(this.scene, this.camera);
-    },*/
     render: function(){
             
-            this.renderer.render(this.scene, this.camera);
+            this._renderer.render(this._scene, this._camera);
     },
     addWord: function(pIndividual, pColor, pListValues){ //plistValues[0]=weight, [1]=distance [2]= totaldistance
-    var textGeometry= new THREE.TextGeometry( pIndividual.getWordString(), {
-                    
-                    size: this.calculateFont(pIndividual.getWeigth(), pListValues[0]),
-                    height: 1,
-                    curveSegments: 2,
-                    font: "helvetiker"
+        var textGeometry= new THREE.TextGeometry( pIndividual.getWordString(), {
+                        
+                        size: this.calculateFont(pIndividual.getWeigth(), pListValues[0]),
+                        height: 1,
+                        curveSegments: 2,
+                        font: "helvetiker"
 
-                });
+                    });
 
-    var textMaterial = new THREE.MeshLambertMaterial({color: pColor})  //0xff3300
-    var text = new THREE.Mesh(textGeometry, textMaterial);
-    text.position.x = this.calculateCoordenate(pIndividual.getDistance(), pListValues[1])-200;
-    text.position.y = 5 + this.calculateCoordenateY(pIndividual.getWeigth(), pListValues[0]); //for it to stick out of the plane as a floor
-    text.position.z = this.calculateCoordenate(pIndividual.getTotalDistance(), pListValues[2])-200;
+        var textMaterial = new THREE.MeshLambertMaterial({color: pColor})  //0xff3300
+        var text = new THREE.Mesh(textGeometry, textMaterial);
+        text.position.x = this.calculateCoordenate(pIndividual.getDistance(), pListValues[1])-200;
+        text.position.y = 5 + this.calculateCoordenateY(pIndividual.getWeigth(), pListValues[0]); //for it to stick out of the plane as a floor
+        text.position.z = this.calculateCoordenate(pIndividual.getTotalDistance(), pListValues[2])-200;
 
-    alert(pIndividual.getWordString() +" " + pIndividual.getTotalDistance()+ " "+ pIndividual.getDistance() + " "+ pIndividual.getWeigth()
-+" "+ text.position.z + " "+ text.position.x+ " "+ text.position.y);
-
-    this.scene.add(text);
-
+        this._scene.add(text);
     },
     addFloor: function(){
         var planeGeometry= new THREE.PlaneGeometry(PLANE_SIZE, PLANE_SIZE, PLANE_SIZE);
         var planeMaterial= new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('floor.jpg') } );
         var plane= new THREE.Mesh(planeGeometry, planeMaterial); //plane starts like a wall we want it as a floor so we rotate it
         plane.rotation.x= -0.5*Math.PI; //math of 180°
-        //plane.receiveShadow=true;
-        this.scene.add(plane);
+        this._scene.add(plane);
     },
     calculateFont: function(pFontSize, pMaxSize){
         //TRY CATCH
