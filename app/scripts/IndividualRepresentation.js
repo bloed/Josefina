@@ -22,16 +22,14 @@ var IndividualRepresentation= Class.extend({
 
             maxRange = Math.floor((individual.getWeigth()+individual.getDistance())*bitsMaxNumber/totalValues);
 
-            this._ChromosomaticRepresentation.push( {word: individual.getWordString(), minValue: minRange, maxValue: (minRange+maxRange),
-            weigth: individual.getWeigth(), distance: individual.getDistance(), totaldistance: individual.getTotalDistance()});
+            this._ChromosomaticRepresentation.push({word: individual.getWordString(), minValue: minRange, maxValue: (minRange+maxRange)});
 
             minRange += maxRange+1;
     	}
 
         var lastIndividual = pListOfIndividuals[pListOfIndividuals.length-1];
 
-        this._ChromosomaticRepresentation.push( {word: lastIndividual.getWordString(), minValue: minRange, maxValue: bitsMaxNumber, 
-            weigth: lastIndividual.getWeigth(), distance: lastIndividual.getDistance(), totaldistance: lastIndividual.getTotalDistance()});
+        this._ChromosomaticRepresentation.push({word: lastIndividual.getWordString(), minValue: minRange, maxValue: bitsMaxNumber});
 
     },
     getIndividual: function(pNumIndividual){
@@ -40,8 +38,7 @@ var IndividualRepresentation= Class.extend({
             var chromosome = this._ChromosomaticRepresentation[indexChromosome];
 
             if(pNumIndividual >= chromosome.minValue && pNumIndividual <= chromosome.maxValue){
-                var baby=new Individual(chromosome.weigth, chromosome.distance, chromosome.totaldistance, chromosome.word,pNumIndividual);
-                return baby;
+                return chromosome.word;
             }
         }
     },
