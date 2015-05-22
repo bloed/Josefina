@@ -29,7 +29,6 @@ function loadPhrase(){
     var indexOfPhraseToLoad = textManager.findIndexOfPhrase(phraseToLoad);
     textManager.getNWords(indexOfPhraseToLoad , AMOUNT_OF_WORDS , 1);
     textManager.getNWords(indexOfPhraseToLoad , AMOUNT_OF_WORDS , -1);
-    textManager.calculateAverageOfDistances();
     geneticManager.mainReproduct();
     var threeDScreen= new ThreeDManagement();
     threeDScreen.insertWordsPlane(geneticManager.getPopulation(), geneticManager.getMaxValues());

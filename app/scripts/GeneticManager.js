@@ -149,7 +149,7 @@ var GeneticManager= Class.extend({
         );
 
         this._Population=[];
-
+        var result = "";
         for(var indexOfArray = 0 ; indexOfArray < 10; indexOfArray++){
             result += listOfIndividuals[indexOfArray].individual.getWordString()+ "  " + listOfIndividuals[indexOfArray].amount;
             result+=" - ";
