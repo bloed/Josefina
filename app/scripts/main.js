@@ -1,5 +1,6 @@
 var textManager = new TextManager();
 var geneticManager = new GeneticManager(textManager);
+//var genetic = new  GeneticOperator();
 
 $("document").ready(function() {//the first to be executed
     $("#BTNLoad").bind("click",loadPhrase);
@@ -7,6 +8,7 @@ $("document").ready(function() {//the first to be executed
     $("#BTNLoad").toggle();
     $("#TXTPhraseToLoad").toggle(); 
     $("#LBLInformation").toggle();
+    //alert(genetic.cross(100,23,genetic.getBitsForAttributes(100,23)));
     
     
 });
@@ -32,6 +34,7 @@ function loadPhrase(){
     geneticManager.mainReproduct();
     var threeDScreen= new ThreeDManagement();
     threeDScreen.insertWordsPlane(geneticManager.getPopulation(), geneticManager.getMaxValues());
+
 
     
 }

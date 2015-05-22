@@ -15,7 +15,7 @@ var GeneticManager= Class.extend({
             var selection= pListOfWords[indexOfArray];
 
             var individual= new Individual(this._TextManager.calculateWeight(selection), this._TextManager.calculateDistance(selection),
-             selection, 0);
+             0, selection, 0);
 
             this._Population.push(individual); 
         }
@@ -45,7 +45,7 @@ var GeneticManager= Class.extend({
         }
         
         if ((this._Population.length > MIN_AMOUNT_OF_INDIVIDUALS && listOfDifferentIndividuals.length > MIN_DIFFERENT_TYPE_OF_INDIVIDUALS)
-        ||(this._Population.length>2000)){
+        ||(this._Population.length > MAX_INDIVIDUALS)){
             return true;
         }
         else{
@@ -54,9 +54,9 @@ var GeneticManager= Class.extend({
         
     },
     createNewGenerations: function(){
-        
+        alert(this._Population.length);
         var fitList = [];//list of individuals considered fit
-        
+        this.calculateMaxValues();
         for (var indexOfArray=0; indexOfArray<this._Population.length; indexOfArray++){
             if(this.isFit(this._Population[indexOfArray])){
                 
@@ -65,7 +65,7 @@ var GeneticManager= Class.extend({
         }
         
         var newIndividuals=[];
-        
+        alert("fit: "+ fitList.length);
         for(var reproductedIndividuals = 0; reproductedIndividuals < INDIVIDUALS_PER_REPRODUCTION; reproductedIndividuals++){
 
             var father=fitList[Math.floor(Math.random()*(fitList.length-1))];
@@ -79,7 +79,7 @@ var GeneticManager= Class.extend({
             bits = this._GeneticOperator.getBitsForAttributes(father.getWeigth(), mother.getWeigth());
             var individualWeigth = this._GeneticOperator.cross(father.getWeigth(), mother.getWeigth(), bits);
 
-            var newBorn = new Individual(individualWeigth, individualDistance, this._IndividualRepresentation.getIndividual(individualNumber), individualNumber);
+            var newBorn = new Individual(individualWeigth, individualDistance, 0, this._IndividualRepresentation.getIndividual(individualNumber), individualNumber);
             newIndividuals.push(newBorn);
             
         }
@@ -95,7 +95,10 @@ var GeneticManager= Class.extend({
 
             var percentage = (pIndividual.getWeigth()*WEIGTH_PERCENTAGE/this._MaxWeigth)+
             (pIndividual.getDistance()*DISTANCE_PERCENTAGE/this._MaxDistance);
-
+            if(percentage >= 101){
+                alert("INFINITO Y MAS ALLA!!!");
+                alert(percentage);
+            }
             if(percentage >= FITNESS_PERCENTAGE)
                 return true;
             else
@@ -147,10 +150,13 @@ var GeneticManager= Class.extend({
             return 0;
             }
         );
+        this._Population = [];
+
         var result = "";
-        for(var indexOfArray=0; indexOfArray<finalIndividuals.length; indexOfArray++){
+        for(var indexOfArray=0; indexOfArray<10; indexOfArray++){
             result +=finalIndividuals[indexOfArray].getWordString() + " peso = " + finalIndividuals[indexOfArray].getWeigth() + " distancia = "
-            + finalIndividuals[indexOfArray].getDistance() + " distancia total = " + finalIndividuals[indexOfArray].getTotalDistance() + " -- ";
+            + finalIndividuals[indexOfArray].getDistance() + " distancia total = " + finalIndividuals[indexOfArray].getTotalDistance() + " \n ";
+            this._Population.push(finalIndividuals[indexOfArray]);
         }
         alert(result);
         

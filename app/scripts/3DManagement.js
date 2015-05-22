@@ -1,5 +1,6 @@
 var ThreeDManagement=Class.extend({
     init: function(){
+        this.colors = [0xFF000, 0xFF7F00, 0xFFFF00, 0x7FFF00, 0x00FF00, 0x00FF7F, 0x00FFFF, 0x007FFF, 0x0000FF];
         this._scene = new THREE.Scene();
         this._camera= new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, .1, 500)
         this._renderer= new THREE.WebGLRenderer();
@@ -23,7 +24,7 @@ var ThreeDManagement=Class.extend({
 
         this._camera.position.x = 0;
         this._camera.position.y = 5;
-        this._camera.position.z = 200;
+        this._camera.position.z = PLANE_SIZE/2;
         this._camera.lookAt(this._scene.position);
         
         $("#webGL-container").append(this._renderer.domElement);
@@ -47,9 +48,9 @@ var ThreeDManagement=Class.extend({
 
         var textMaterial = new THREE.MeshLambertMaterial({color: pColor})  //0xff3300
         var text = new THREE.Mesh(textGeometry, textMaterial);
-        text.position.x = this.calculateCoordenate(pIndividual.getDistance(), pListValues[1])-200;
+        text.position.x = this.calculateCoordenate(pIndividual.getDistance(), pListValues[1])-(PLANE_SIZE/2);
         text.position.y = 5 + this.calculateCoordenateY(pIndividual.getWeigth(), pListValues[0]); //for it to stick out of the plane as a floor
-        text.position.z = this.calculateCoordenate(pIndividual.getTotalDistance(), pListValues[2])-200;
+        text.position.z = this.calculateCoordenate(pIndividual.getTotalDistance(), pListValues[2])-(PLANE_SIZE/2);
 
         this._scene.add(text);
     },
@@ -84,7 +85,7 @@ var ThreeDManagement=Class.extend({
     },
     insertWordsPlane: function(pListOfIndividuals, pValues){
         for(var index = 0; index < pListOfIndividuals.length; index++){
-            this.addWord(pListOfIndividuals[index], 0xff3300, pValues);
+            this.addWord(pListOfIndividuals[index], this.colors[index], pValues);
             
         }
     }
