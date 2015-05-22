@@ -1,4 +1,4 @@
-var GeneticOperator= Class.extend({
+var GeneticOperator = Class.extend({
     init: function(){
     },
     mutation: function(pIndividual){

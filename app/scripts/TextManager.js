@@ -107,28 +107,28 @@ var TextManager = Class.extend({
         return totalOfAppearances;
     },
     calculateWeight: function(pWord){
-         var weight = 0;
-         var distanceOfWordToRelate = 0;
-         var currentWordDistance = this.calculateDistance(pWord);
-         var averageOfDistances =  this.calculateAverageOfDistances();
-         var minValue = currentWordDistance - averageOfDistances;
-         if (minValue < 0){//for those words with really low distance
+        var weight = 0;
+        var distanceOfWordToRelate = 0;
+        var currentWordDistance = this.calculateDistance(pWord);
+        var averageOfDistances =  this.calculateAverageOfDistances();
+        var minValue = currentWordDistance - averageOfDistances;
+        if (minValue < 0){//for those words with really low distance
              minValue = 0;
-         }
-         var maxValue = currentWordDistance + averageOfDistances;
+        }
+        var maxValue = currentWordDistance + averageOfDistances;
 
-         for(var indexOfArray = 0 ; indexOfArray < this._ListOfWords.length; indexOfArray++){
-            if (this._ListOfWords[indexOfArray] !== pWord){//so a word does not relates to itself
+        for(var indexOfArray = 0 ; indexOfArray < this._ListOfWords.length; indexOfArray++){
+           if (this._ListOfWords[indexOfArray] !== pWord){//so a word does not relates to itself
                 distanceOfWordToRelate = this.calculateDistance(this._ListOfWords[indexOfArray]);
                 if(distanceOfWordToRelate >= minValue && distanceOfWordToRelate<=maxValue){
                     weight++;
                 }
             } 
-         }
-         if (weight===0){
+        }
+        if (weight===0){
              weight=1;
-         }
-         return weight;
+        }
+        return weight;
     },
     calculateDistance : function (pWord){
 
