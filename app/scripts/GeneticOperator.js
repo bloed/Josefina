@@ -6,7 +6,7 @@ var GeneticOperator = Class.extend({
         var mutationNumber = Math.floor(Math.random()*100); //100 percent
 
         if(mutationNumber<MUTATION_PROBABILITY){   //it exists in th minority
-            var mutationPoint=Math.floor(Math.random()*(pAmountOfBitsS-1));
+            var mutationPoint=Math.floor(Math.random()*(pAmountOfBits-1));
             var bitMask= 1<<mutationPoint;
             pIndividual=pIndividual^bitMask; //exor of mask
         }
@@ -14,13 +14,13 @@ var GeneticOperator = Class.extend({
     },
     cross:function (pFather, pMother, pAmountOfBits){
         //variable point
-        var crossPoint=Math.floor((Math.random()*(pAmountOfBitsS-1))+1);
+        var crossPoint=Math.floor((Math.random()*(pAmountOfBits-1))+1);
 
-        pFather = pFather>>>(pAmountOfBitsS-crossPoint); //erease the less significant bits
-        pFather = pFather<<(pAmountOfBitsS-crossPoint); //returns most significant bits to current position
+        pFather = pFather>>>(pAmountOfBits-crossPoint); //erease the less significant bits
+        pFather = pFather<<(pAmountOfBits-crossPoint); //returns most significant bits to current position
         
-        var motherMask=pMother>>>(pAmountOfBitsS-crossPoint); //creates mask of most significant bits of mother
-        motherMask=motherMask<<(pAmountOfBitsS-crossPoint); //return mask to actual position
+        var motherMask=pMother>>>(pAmountOfBits-crossPoint); //creates mask of most significant bits of mother
+        motherMask=motherMask<<(pAmountOfBits-crossPoint); //return mask to actual position
         pMother=pMother^motherMask; //exors the bits to get the less significant bits
         return this.mutation(pFather+pMother);
     },
