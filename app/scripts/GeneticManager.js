@@ -15,7 +15,7 @@ var GeneticManager= Class.extend({
             var selection= pListOfWords[indexOfArray];
 
             var individual= new Individual(this._TextManager.calculateWeight(selection), this._TextManager.calculateDistance(selection),
-                this._TextManager.calculateTotalDistance(selection), selection,0);
+             selection, 0);
 
             this._Population.push(individual); 
         }
@@ -69,11 +69,17 @@ var GeneticManager= Class.extend({
         for(var reproductedIndividuals = 0; reproductedIndividuals < INDIVIDUALS_PER_REPRODUCTION; reproductedIndividuals++){
 
             var father=fitList[Math.floor(Math.random()*(fitList.length-1))];
-            var fatherChromosome = father.getWordRepresentation();
             var mother=fitList[Math.floor(Math.random()*(fitList.length-1))];
-            var motherChromosome = mother.getWordRepresentation();
-            var newBorn= this._IndividualRepresentation.getIndividual(this._GeneticOperator.cross(fatherChromosome,motherChromosome));
+
+            var individualNumber = this._GeneticOperator.cross(father.getWordRepresentation(), mother.getWordRepresentation(), AMOUNT_OF_BITS);
             
+            var bits = this._GeneticOperator.getBitsForAttributes(father.getDistance(), mother.getDistance());
+            var individualDistance = this._GeneticOperator.cross(father.getDistance(), mother.getDistance(), bits);
+            
+            bits = this._GeneticOperator.getBitsForAttributes(father.getWeigth(), mother.getWeigth());
+            var individualWeigth = this._GeneticOperator.cross(father.getWeight(), mother.getWeight(), bits);
+
+            var newBorn = new Individual(individualWeigth, individualDistance, this._IndividualRepresentation.getIndividual(individualNumber), individualNumber);
             newIndividuals.push(newBorn);
             
         }
@@ -121,43 +127,8 @@ var GeneticManager= Class.extend({
             result+=" - ";
         }
         alert(result);*/ //print poblacion final
-            
-        var listOfWords = [];
-        var finalIndividuals = [];
-        var processedWords = [];
-        for (var indexOfArray=0; indexOfArray<this._Population.length; indexOfArray++){
-            listOfWords.push(this._Population[indexOfArray].getWordString());
-        }
-        this._TextManager.setListOfWords(listOfWords);
-        
-        for(var indexOfArray=0; indexOfArray<listOfWords.length; indexOfArray++){
-            var selection=listOfWords[indexOfArray];
-            if (processedWords.indexOf(selection) === -1){
-                var individual= new Individual(this._TextManager.calculateWeight(selection), this._TextManager.calculateDistance(selection),
-                this._TextManager.calculateTotalDistance(selection), selection,0);
-                finalIndividuals.push(individual); 
-                processedWords.push(selection);
-            }
-        }
-        
-        finalIndividuals.sort(function compare(indivudalA,individualB){
-            if (indivudalA.getDistance() < individualB.getDistance())
-                return 1;
-            if (indivudalA.getDistance() > individualB.getDistance())
-                return -1;
-            return 0;
-            }
-        );
-        var result = "";
-        for(var indexOfArray=0; indexOfArray<finalIndividuals.length; indexOfArray++){
-            result +=finalIndividuals[indexOfArray].getWordString() + " peso = " + finalIndividuals[indexOfArray].getWeigth() + " distancia = "
-            + finalIndividuals[indexOfArray].getDistance() + " distancia total = " + finalIndividuals[indexOfArray].getTotalDistance() + " -- ";
-        }
-        alert(result);
-        
-        
-        
-        /*var listOfIndividuals = [];
+
+        var listOfIndividuals = [];
         var individualFound= false;
         for (var indexOfArray=0; indexOfArray<this._Population.length; indexOfArray++){
             for(var indexSecondArray = 0; indexSecondArray< listOfIndividuals.length; indexSecondArray++){
@@ -190,7 +161,7 @@ var GeneticManager= Class.extend({
             result+=" - ";
             this._Population.push(listOfIndividuals[indexOfArray].individual);
         }
-        alert(result);*/
+        alert(result);
     },
     calculateMaxValues: function(){
 
