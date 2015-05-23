@@ -122,12 +122,12 @@ var TextManager = Class.extend({
 
         var totalOfAppeareances = 0;
         
-         /*for(var indexOfArray = 0 ; indexOfArray < this._ListOfWords.length; indexOfArray++){
+         for(var indexOfArray = 0 ; indexOfArray < this._ListOfWords.length; indexOfArray++){
              if (this._ListOfWords[indexOfArray] === pWord){
                  totalOfAppeareances++;
              }
          }
-         return totalOfAppeareances;*/
+         return totalOfAppeareances;
     },
     /*calculateAverageOfDistances : function(){
 
