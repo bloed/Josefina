@@ -15,12 +15,11 @@ var IndividualRepresentation= Class.extend({
 
     	var minRange = 0;
     	var maxRange = 0;
-    	var bitsMaxNumber = Math.pow(2, AMOUNT_OF_BITS)-1;
-
+        
     	for(var index = 0; index < arrayLength-1; index++){
             var individual=pListOfIndividuals[index];
 
-            maxRange = Math.floor((individual.getWeigth()+individual.getDistance())*bitsMaxNumber/totalValues);
+            maxRange = Math.floor((individual.getWeigth()+individual.getDistance())*MAX_VALUE_BITS/totalValues);
 
             this._ChromosomaticRepresentation.push({word: individual.getWordString(), minValue: minRange, maxValue: (minRange+maxRange)});
 
@@ -29,7 +28,7 @@ var IndividualRepresentation= Class.extend({
 
         var lastIndividual = pListOfIndividuals[pListOfIndividuals.length-1];
 
-        this._ChromosomaticRepresentation.push({word: lastIndividual.getWordString(), minValue: minRange, maxValue: bitsMaxNumber});
+        this._ChromosomaticRepresentation.push({word: lastIndividual.getWordString(), minValue: minRange, maxValue: MAX_VALUE_BITS});
 
     },
     getIndividual: function(pNumIndividual){
