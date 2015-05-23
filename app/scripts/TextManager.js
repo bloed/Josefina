@@ -153,6 +153,19 @@ var TextManager = Class.extend({
         var numberOfWords = processedWords.length;
         //this._AverageOfDistance = Math.floor(totalDistance/numberOfWords);
         return Math.floor(totalDistance/numberOfWords);
-    }
+    }//Nuevas funciones
+    ,
+    calculateAllDistances : function(pListOfDistances){
+        var processedDistances = [];
+        var totalDistance = 0;
+        for(var indexArray; indexArray < pListOfDistances.length ; indexArray++){
+            if(processedDistances.indexOf(pListOfDistances[indexArray])===-1){
+                totalDistance += pListOfDistances[indexArray];
+                processedDistances.push(pListOfDistances[indexArray]);
+            }
+        }
+        return totalDistance;
+    },
+    
 });
 
