@@ -4,10 +4,11 @@ var ThreeDManagement=Class.extend({
         this._scene = new THREE.Scene();
         this._camera= new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, .1, 500)
         this._renderer= new THREE.WebGLRenderer();
-        this._renderer.setClearColor(0xdddddd); //greyish
+        this._renderer.setClearColor(0xCC00CC); //greyish
         this._renderer. setSize(window.innerWidth, window.innerHeight);
         this._controls = new THREE.OrbitControls( this._camera );
         this._controls.damping = 0.2;
+        this._controls.maxDistance = PLANE_SIZE/2+ PLANE_SIZE/4;
 
         this._animation= function(){
             requestAnimationFrame(this._animation.bind(this));
@@ -48,18 +49,20 @@ var ThreeDManagement=Class.extend({
 
         var textMaterial = new THREE.MeshLambertMaterial({color: pColor})  //0xff3300
         var text = new THREE.Mesh(textGeometry, textMaterial);
-        text.position.x = this.calculateCoordenate(pIndividual.getDistance(), pListValues[1])-(PLANE_SIZE/2);
+        text.position.x = this.calculateCoordenate(pIndividual.getDistance(), pListValues[1])-(PLANE_SIZE/2)-20;
         text.position.y = 5 + this.calculateCoordenateY(pIndividual.getWeigth(), pListValues[0]); //for it to stick out of the plane as a floor
-        text.position.z = this.calculateCoordenate(pIndividual.getTotalDistance(), pListValues[2])-(PLANE_SIZE/2);
+        text.position.z = this.calculateCoordenate(pIndividual.getTotalDistance(), pListValues[2])-(PLANE_SIZE/2)-20;
 
         this._scene.add(text);
     },
     addFloor: function(){
-        var planeGeometry= new THREE.PlaneGeometry(PLANE_SIZE, PLANE_SIZE, PLANE_SIZE);
-        var planeMaterial= new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('floor.jpg') } );
-        var plane= new THREE.Mesh(planeGeometry, planeMaterial); //plane starts like a wall we want it as a floor so we rotate it
-        plane.rotation.x= -0.5*Math.PI; //math of 180°
-        this._scene.add(plane);
+        //var planeGeometry= new THREE.PlaneGeometry(PLANE_SIZE, PLANE_SIZE, PLANE_SIZE);
+        var planeMaterial= new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('floor.jpg'), side: THREE.DoubleSide } );
+        //var plane= new THREE.Mesh(planeGeometry, planeMaterial); //plane starts like a wall we want it as a floor so we rotate it
+        //plane.rotation.x= -0.5*Math.PI; //math of 180°*/
+        var cube= new THREE.BoxGeometry( PLANE_SIZE+100, PLANE_SIZE+100, PLANE_SIZE+100);
+        var cube2= new THREE.Mesh(cube, planeMaterial);
+        this._scene.add(cube2);
     },
     calculateFont: function(pFontSize, pMaxSize){
         //TRY CATCH

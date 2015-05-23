@@ -10,7 +10,7 @@ var GeneticManager= Class.extend({
         this._MaxTotalDistance = 0; //needed for methods to calculate values of words, it may go somehwere else though
     },
     createInitialPopulation: function(pListOfWords){
-
+        this._TextManager.calculateAverageOfDistances();
         for(var indexOfArray=0; indexOfArray<pListOfWords.length; indexOfArray++){
             var selection= pListOfWords[indexOfArray];
 
@@ -127,11 +127,12 @@ var GeneticManager= Class.extend({
         var listOfWords = [];
         var finalIndividuals = [];
         var processedWords = [];
+        
         for (var indexOfArray=0; indexOfArray<this._Population.length; indexOfArray++){
             listOfWords.push(this._Population[indexOfArray].getWordString());
         }
         this._TextManager.setListOfWords(listOfWords);
-        
+        this._TextManager.calculateAverageOfDistances();
         for(var indexOfArray=0; indexOfArray<listOfWords.length; indexOfArray++){
             var selection=listOfWords[indexOfArray];
             if (processedWords.indexOf(selection) === -1){
