@@ -6,6 +6,8 @@ var TextManager = Class.extend({
         ,"pero","con","sin","lo","ni","le","al","nos","por","su","da","un","tan","del","desde","ante","para","mas","tal","esa"];
         this._ListOfWords = [];
         this._AverageOfDistance = 0;
+        this._TotalDifferentDistance = 0;
+        this._ListOfPercentagePerDistance = [];
     },
     getText: function(){
 
@@ -106,25 +108,11 @@ var TextManager = Class.extend({
         }
         return totalOfAppearances;
     },
-    calculateWeight: function(pWord){
+    calculateWeight: function(pWord,pDistance){
         var weight = 0;
-        var distanceOfWordToRelate = 0;
-        var currentWordDistance = this.calculateDistance(pWord);
-        var averageOfDistances =  this.calculateAverageOfDistances();
-        var minValue = currentWordDistance - averageOfDistances;
-        if (minValue < 0){//for those words with really low distance
-             minValue = 0;
-        }
-        var maxValue = currentWordDistance + averageOfDistances;
+        var percentageOfDistance = Math.round((pDistance/this._TotalDifferentDistance)*100);
 
-        for(var indexOfArray = 0 ; indexOfArray < this._ListOfWords.length; indexOfArray++){
-           if (this._ListOfWords[indexOfArray] !== pWord){//so a word does not relates to itself
-                distanceOfWordToRelate = this.calculateDistance(this._ListOfWords[indexOfArray]);
-                if(distanceOfWordToRelate >= minValue && distanceOfWordToRelate<=maxValue){
-                    weight++;
-                }
-            } 
-        }
+        
         if (weight===0){
              weight=1;
         }
@@ -133,14 +121,15 @@ var TextManager = Class.extend({
     calculateDistance : function (pWord){
 
         var totalOfAppeareances = 0;
-         for(var indexOfArray = 0 ; indexOfArray < this._ListOfWords.length; indexOfArray++){
+        
+         /*for(var indexOfArray = 0 ; indexOfArray < this._ListOfWords.length; indexOfArray++){
              if (this._ListOfWords[indexOfArray] === pWord){
                  totalOfAppeareances++;
              }
          }
-         return totalOfAppeareances;
+         return totalOfAppeareances;*/
     },
-    calculateAverageOfDistances : function(){
+    /*calculateAverageOfDistances : function(){
 
         var totalDistance = 0;
         var processedWords = [];
@@ -154,18 +143,33 @@ var TextManager = Class.extend({
         //this._AverageOfDistance = Math.floor(totalDistance/numberOfWords);
         return Math.floor(totalDistance/numberOfWords);
     }//Nuevas funciones
-    ,
+    ,*/
     calculateAllDistances : function(pListOfDistances){
         var processedDistances = [];
         var totalDistance = 0;
-        for(var indexArray; indexArray < pListOfDistances.length ; indexArray++){
+        for(var indexArray = 0; indexArray < pListOfDistances.length ; indexArray++){
             if(processedDistances.indexOf(pListOfDistances[indexArray])===-1){
                 totalDistance += pListOfDistances[indexArray];
                 processedDistances.push(pListOfDistances[indexArray]);
             }
         }
+        this._TotalDifferentDistance = totalDistance;
         return totalDistance;
     },
-    
+    calculatePercentagePerDistance : function(pListOfDistances){
+        //sets a new array of the form [distance : , percentage : ], sorted by percentage
+        var listPercentagePerDistance = [];
+        var processedDistances = [];
+        var percentageOfDistance = 0;
+        for(var indexArray = 0; indexArray < pListOfDistances.length ; indexArray++){
+            if(processedDistances.indexOf(pListOfDistances[indexArray])===-1){
+                percentageOfDistance = Math.round((pListOfDistances[indexArray]/this._TotalDifferentDistance)*100);
+                listPercentagePerDistance.push(percentageOfDistance);
+            }
+        }
+        listPercentagePerDistance.sort();        
+        this._ListOfPercentagePerDistance = listPercentagePerDistance;
+    }
+
 });
 
