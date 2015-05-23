@@ -110,12 +110,12 @@ var TextManager = Class.extend({
         var weight = 0;
         var distanceOfWordToRelate = 0;
         var currentWordDistance = this.calculateDistance(pWord);
-        var averageOfDistances =  this.calculateAverageOfDistances();
-        var minValue = currentWordDistance - averageOfDistances;
+        //var averageOfDistances =  this.calculateAverageOfDistances();
+        var minValue = currentWordDistance - this._AverageOfDistance;
         if (minValue < 0){//for those words with really low distance
              minValue = 0;
         }
-        var maxValue = currentWordDistance + averageOfDistances;
+        var maxValue = currentWordDistance + this._AverageOfDistance;
 
         for(var indexOfArray = 0 ; indexOfArray < this._ListOfWords.length; indexOfArray++){
            if (this._ListOfWords[indexOfArray] !== pWord){//so a word does not relates to itself
@@ -151,8 +151,8 @@ var TextManager = Class.extend({
              }
         }
         var numberOfWords = processedWords.length;
-        //this._AverageOfDistance = Math.floor(totalDistance/numberOfWords);
-        return Math.floor(totalDistance/numberOfWords);
+        this._AverageOfDistance = Math.floor(totalDistance/numberOfWords);
+        //turn Math.floor(totalDistance/numberOfWords);
     }
 });
 
