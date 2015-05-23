@@ -128,10 +128,12 @@ var IndividualRepresentation= Class.extend({
             }
         }
 
-        var currentMaxValue = Math.floor((percentage-1)*pTotalAttribute/100);
+        var numberMaxValue = Math.floor((percentage-1)*pTotalAttribute/100);
         maxValue = Math.floor(percentageRange*MAX_VALUE_BITS/100);
-        for(var chromosome = currentNumber; chromosome <= currentMaxValue; chromosome++){
-            pArrayRepresentation.push({attribute: chromosome, minValue: minValue, maxValue: minValue+maxValue});
+        var increment = Math.floor(maxValue/(numberMaxValue - currentNumber));
+        for(var chromosome = currentNumber; chromosome <= numberMaxValue; chromosome++){
+            pArrayRepresentation.push({attribute: chromosome, minValue: minValue, maxValue: minValue+increment});
+            minValue += increment +1;
         }
     }
 });

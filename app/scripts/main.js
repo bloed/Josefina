@@ -7,7 +7,8 @@ $("document").ready(function() {//the first to be executed
     document.getElementById('INPfile').addEventListener('change', loadText, false);
     $("#BTNLoad").toggle();
     $("#TXTPhraseToLoad").toggle(); 
-    $("#LBLInformation").toggle(); 
+    $("#LBLInformation").toggle();
+    //alert((Math.floor(27/10))*10);
 });
 function loadText(evt){
     var file = evt.target.files[0];//gets the file (and only) which was given by the user 
@@ -29,8 +30,8 @@ function loadPhrase(){
     textManager.getNWords(indexOfPhraseToLoad , AMOUNT_OF_WORDS , 1);
     textManager.getNWords(indexOfPhraseToLoad , AMOUNT_OF_WORDS , -1);
     geneticManager.mainReproduct();
-    var threeDScreen= new ThreeDManagement();
-    threeDScreen.insertWordsPlane(geneticManager.getPopulation(), geneticManager.getMaxValues());
+    //var threeDScreen= new ThreeDManagement();
+    //threeDScreen.insertWordsPlane(geneticManager.getPopulation(), geneticManager.getMaxValues());
 
 
     

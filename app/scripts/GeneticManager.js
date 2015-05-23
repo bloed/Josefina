@@ -9,20 +9,12 @@ var GeneticManager= Class.extend({
         this._MaxDistance = 0;
         this._MaxTotalDistance = 0; //needed for methods to calculate values of words, it may go somehwere else though
     },
-    createInitialPopulation: function(pListOfWords){
-        this._TextManager.calculateAverageOfDistances();
-        for(var indexOfArray=0; indexOfArray<pListOfWords.length; indexOfArray++){
-            var selection= pListOfWords[indexOfArray];
+    createInitialPopulation: function(){
+        this._Population =this._TextManager.mainCalculateIndividuals();
 
-            var individual= new Individual(this._TextManager.calculateWeight(selection), this._TextManager.calculateDistance(selection),
-             0, selection, 0);
+        //this._IndividualRepresentation.calculateChromosomaticRepresentation(this._Population);
 
-            this._Population.push(individual); 
-        }
-
-        this._IndividualRepresentation.calculateChromosomaticRepresentation(this._Population);
-
-        this.setRepresentationForInitialPopulation();//creates chromosomes for the first population
+        //this.setRepresentationForInitialPopulation();//creates chromosomes for the first population
 
     },
     replaceCurrentPopulation: function (pListOfIndividuals){
@@ -109,9 +101,9 @@ var GeneticManager= Class.extend({
     },
     mainReproduct : function(){
 
-        this.createInitialPopulation(this._TextManager.getListOfWords());
+        this.createInitialPopulation();
 
-        while(this._KeepReproducing){
+        /*while(this._KeepReproducing){
             if(this.verifyStop()){
                 this.stop();
             }
@@ -120,7 +112,7 @@ var GeneticManager= Class.extend({
                 this.replaceCurrentPopulation(this.createNewGenerations());
             }
         }
-        this.getFinalIndividuals();
+        this.getFinalIndividuals();*/
     },
     getFinalIndividuals: function(){
 
