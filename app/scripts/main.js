@@ -30,8 +30,8 @@ function loadPhrase(){
     textManager.getNWords(indexOfPhraseToLoad , AMOUNT_OF_WORDS , 1);
     textManager.getNWords(indexOfPhraseToLoad , AMOUNT_OF_WORDS , -1);
     geneticManager.mainReproduct();
-    //var threeDScreen= new ThreeDManagement();
-    //threeDScreen.insertWordsPlane(geneticManager.getPopulation(), geneticManager.getMaxValues());
+    var threeDScreen= new ThreeDManagement();
+    threeDScreen.insertWordsPlane(geneticManager.getPopulation(), geneticManager.getMaxValues(), geneticManager.getMinValues());
 
 
     

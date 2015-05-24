@@ -14,7 +14,7 @@ var GeneticManager= Class.extend({
 
         this._IndividualRepresentation.calculateRepresentations(this._Population);
 
-        //this.setRepresentationForInitialPopulation();//creates chromosomes for the first population
+        this.setRepresentationForInitialPopulation();//creates chromosomes for the first population
 
     },
     replaceCurrentPopulation: function (pListOfIndividuals){
@@ -63,16 +63,21 @@ var GeneticManager= Class.extend({
             var father=fitList[Math.floor(Math.random()*(fitList.length-1))];
             var mother=fitList[Math.floor(Math.random()*(fitList.length-1))];
 
-            var individualNumber = this._GeneticOperator.cross(father.getWordRepresentation(), mother.getWordRepresentation(), AMOUNT_OF_BITS);
+            var individualWordRepresentation = this._GeneticOperator.cross(father.getWordRepresentation(), mother.getWordRepresentation(), AMOUNT_OF_BITS);
+            var individualWord = this._IndividualRepresentation.getAttribute(individualWordRepresentation, this._IndividualRepresentation.getWordChromosomes());
             
-            var bits = this._GeneticOperator.getBitsForAttributes(father.getDistance(), mother.getDistance());
-            var individualDistance = this._GeneticOperator.cross(father.getDistance(), mother.getDistance(), bits);
+            var individualDistanceRepresentation = this._GeneticOperator.cross(father.getDistanceRepresentation(), mother.getDistanceRepresentation(), BITS_ATTRIBUTES);
+            var individualDistance = this._IndividualRepresentation.getAttribute(individualDistanceRepresentation, this._IndividualRepresentation.getDistanceChromosomes());
             
-            bits = this._GeneticOperator.getBitsForAttributes(father.getWeigth(), mother.getWeigth());
-            var individualWeigth = this._GeneticOperator.cross(father.getWeigth(), mother.getWeigth(), bits);
+            var individualWeigthRepresentation = this._GeneticOperator.cross(father.getWeigthRepresentation(), mother.getWeigthRepresentation(), BITS_ATTRIBUTES);
+            var individualWeigth = this._IndividualRepresentation.getAttribute(individualWeigthRepresentation, this._IndividualRepresentation.getWeigthChromosomes());
 
-            var newBorn = new Individual(individualWeigth, individualDistance, 0, this._IndividualRepresentation.getIndividual(individualNumber), individualNumber);
+            var newBorn = new Individual(individualWeigth, individualDistance, individualWord);
+            newBorn.setRepresentations(individualWordRepresentation, individualDistanceRepresentation, individualWeigthRepresentation);
             newIndividuals.push(newBorn);
+            //alert("padre: "+ father.getWordString() +" mother: "+ mother.getWordString());
+            //alert("bebe: peso:"+ individualWeigth+ " "+ individualWeigthRepresentation + "word "+individualWord+" "+ individualWordRepresentation+ " distance "+ individualDistance+ " "+ individualDistanceRepresentation);
+            //alert(newBorn.getDistance() +" "+ newBorn.getWeigth()+ " ");
             
         }
         
@@ -103,7 +108,7 @@ var GeneticManager= Class.extend({
 
         this.createInitialPopulation();
 
-        /*while(this._KeepReproducing){
+        while(this._KeepReproducing){
             if(this.verifyStop()){
                 this.stop();
             }
@@ -112,7 +117,7 @@ var GeneticManager= Class.extend({
                 this.replaceCurrentPopulation(this.createNewGenerations());
             }
         }
-        this.getFinalIndividuals();*/
+        this.getFinalIndividuals();
     },
     getFinalIndividuals: function(){
 
@@ -124,14 +129,14 @@ var GeneticManager= Class.extend({
             listOfWords.push(this._Population[indexOfArray].getWordString());
         }
         this._TextManager.setListOfWords(listOfWords);
-        this._TextManager.calculateAverageOfDistances();
-        for(var indexOfArray=0; indexOfArray<listOfWords.length; indexOfArray++){
-            var selection=listOfWords[indexOfArray];
-            if (processedWords.indexOf(selection) === -1){
-                var individual= new Individual(this._TextManager.calculateWeight(selection), this._TextManager.calculateDistance(selection),
-                this._TextManager.calculateTotalDistance(selection), selection,0);
-                finalIndividuals.push(individual); 
-                processedWords.push(selection);
+        this._Population = this._TextManager.mainCalculateIndividuals();
+
+        for(var indexOfArray = 0; indexOfArray < this._Population.length; indexOfArray++){
+            var selection = this._Population[indexOfArray];
+            if (processedWords.indexOf(selection.getWordString()) === -1){
+                selection.setTotalDistance(this._TextManager.calculateTotalDistance(selection.getWordString()));
+                finalIndividuals.push(selection); 
+                processedWords.push(selection.getWordString());
             }
         }
         
@@ -145,59 +150,13 @@ var GeneticManager= Class.extend({
         );
         this._Population = [];
 
-        var result = "";
+        var result = "FINALES  ";
         for(var indexOfArray=0; indexOfArray<10; indexOfArray++){
             result +=finalIndividuals[indexOfArray].getWordString() + " peso = " + finalIndividuals[indexOfArray].getWeigth() + " distancia = "
             + finalIndividuals[indexOfArray].getDistance() + " distancia total = " + finalIndividuals[indexOfArray].getTotalDistance() + " \n ";
             this._Population.push(finalIndividuals[indexOfArray]);
         }
         alert(result);
-        
-        
-        
-        /*var listOfIndividuals = [];
-
-        /*var result="";
-        for(var indexOfArray = 0 ; indexOfArray<this._Population.length; indexOfArray++){
-            result += this._Population[indexOfArray].getWordString();
-            result+=" - ";
-        }
-        alert(result);*/ //print poblacion final
-
-        /*var listOfIndividuals = [];
-        var individualFound= false;
-        for (var indexOfArray=0; indexOfArray<this._Population.length; indexOfArray++){
-            for(var indexSecondArray = 0; indexSecondArray< listOfIndividuals.length; indexSecondArray++){
-                if(this._Population[indexOfArray].getWordString()===listOfIndividuals[indexSecondArray].individual.getWordString()){
-                    listOfIndividuals[indexSecondArray].amount++;
-                    individualFound=true;
-                    break;
-                }
-            }
-            if(individualFound){
-                individualFound=false;
-            }else{//only happens for the first appearance
-                listOfIndividuals.push({individual: this._Population[indexOfArray], amount: 1});
-            }
-        }
-
-        listOfIndividuals.sort(function compare(indivudalA,individualB){
-            if (indivudalA.amount < individualB.amount)
-                return 1;
-            if (indivudalA.amount > individualB.amount)
-                return -1;
-            return 0;
-            }
-        );
-
-        this._Population=[];
-        var result = "";
-        for(var indexOfArray = 0 ; indexOfArray < 10; indexOfArray++){
-            result += listOfIndividuals[indexOfArray].individual.getWordString()+ "  " + listOfIndividuals[indexOfArray].amount;
-            result+=" - ";
-            this._Population.push(listOfIndividuals[indexOfArray].individual);
-        }
-        alert(result);*/
     },
     calculateMaxValues: function(){
 
@@ -244,8 +203,30 @@ var GeneticManager= Class.extend({
         for(var indexOfArray=0; indexOfArray<this._Population.length; indexOfArray++){
             
             var individual = this._Population[indexOfArray];
-            individual.setWordRepresentation(this._IndividualRepresentation.getRepresentation(individual.getWordString()));
+
+            var word = this._IndividualRepresentation.getRepresentation(individual.getWordString(), this._IndividualRepresentation.getWordChromosomes());
+            var distance = this._IndividualRepresentation.getRepresentation(individual.getDistance(), this._IndividualRepresentation.getDistanceChromosomes());
+            var weigth = this._IndividualRepresentation.getRepresentation(individual.getWeigth(), this._IndividualRepresentation.getWeigthChromosomes());
+            individual.setRepresentations(word, distance, weigth);
         }
+    },
+    getMinValues: function(){
+        var arrayMin = [0,0,0]; //[0] weight, [1] distance, [2] totaldistance 
+        arrayMin[0] = this._Population[0].getWeigth();
+        arrayMin[1] = this._Population[0].getDistance();
+        arrayMin[2] = this._Population[0].getTotalDistance();
+        for(var index = 1; index < this._Population.length; index++){
+            var selection = this._Population[index];
+            if(selection.getDistance() < arrayMin[1])
+                arrayMin[1] = selection.getDistance();
+
+            if(selection.getWeigth() < arrayMin[0])
+                arrayMin[0] = selection.getWeigth();
+
+            if(selection.getTotalDistance() < arrayMin[2])
+                arrayMin[2] = selection.getTotalDistance();
+        }
+        return arrayMin;
     }
 });
 

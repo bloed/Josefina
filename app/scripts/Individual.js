@@ -1,10 +1,12 @@
 var Individual= Class.extend({
-    init: function(pWeigth, pDistance, pTotalDistance, pWord, pWordRepresentation){
+    init: function(pWeigth, pDistance, pWord){
         this._Weigth = pWeigth;
         this._Distance = pDistance;
-        this._TotalDistance = pTotalDistance;
-        this._WordRepresentation = pWordRepresentation;//chromosomatic representation
-        this._WordString = pWord; //need to creeate the chromosomatic representation
+        this._WordString = pWord;
+        this._TotalDistance = 0;
+        this._WordRepresentation = 0;//chromosomatic representation
+        this._DistanceRepresentation = 0;
+        this._WeigthRepresentation = 0; //need to creeate the chromosomatic representation
     },
     getWeigth: function(){
     	return this._Weigth;
@@ -27,14 +29,22 @@ var Individual= Class.extend({
     getWordRepresentation: function(){
     	return this._WordRepresentation;
     },
-    setWordRepresentation: function(pWordRepresentation){
-    	this._WordRepresentation = pWordRepresentation;
-    },
     setWordString: function(pWord){
     	this._WordString = pWord;
     },
     getWordString: function(){
     	return this._WordString;
+    },
+    getDistanceRepresentation: function(){
+        return this._DistanceRepresentation;
+    },
+    getWeigthRepresentation: function(){
+        return this._WeigthRepresentation;
+    },
+    setRepresentations: function(pWord, pDistance, pWeigth){
+        this._WordRepresentation = pWord;
+        this._DistanceRepresentation = pDistance;
+        this._WeigthRepresentation = pWeigth;
     }
 });
 

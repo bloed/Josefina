@@ -53,6 +53,8 @@ var ThreeDManagement=Class.extend({
         text.position.y = 5 + this.calculateCoordenateY(pIndividual.getWeigth(), pListValues[0]); //for it to stick out of the plane as a floor
         text.position.z = this.calculateCoordenate(pIndividual.getTotalDistance(), pListValues[2])-(PLANE_SIZE/2)-20;
 
+        alert(text.position.x+ " "+ text.position.y + " "+ text.position.z);
+
         this._scene.add(text);
     },
     addFloor: function(){
@@ -86,7 +88,10 @@ var ThreeDManagement=Class.extend({
             return 1;
         }
     },
-    insertWordsPlane: function(pListOfIndividuals, pValues){
+    insertWordsPlane: function(pListOfIndividuals, pValues, pMinValues){
+        for(var count=0; count <3; count++)
+            pValues[count] = pValues[count]-pMinValues[count];
+
         for(var index = 0; index < pListOfIndividuals.length; index++){
             this.addWord(pListOfIndividuals[index], this.colors[index], pValues);
             

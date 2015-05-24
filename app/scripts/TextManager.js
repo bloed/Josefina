@@ -137,7 +137,7 @@ var TextManager = Class.extend({
                     }
                 }
             }
-            var individual = new Individual(weight,pListOfWords[indexArrayDistance].distance,0,pListOfWords[indexArrayDistance].word,0);
+            var individual = new Individual(weight,pListOfWords[indexArrayDistance].distance,pListOfWords[indexArrayDistance].word);
             listOfIndividuals.push(individual);
         }
         return listOfIndividuals;
@@ -159,11 +159,11 @@ var TextManager = Class.extend({
                listOfDistances.push({word :this._ListOfWords[indexOfArray] ,  distance : 1}); 
             }
         }
-        var result = "";
+        /*var result = "";
         for(var indexOfDistance = 0 ;indexOfDistance < listOfDistances.length; indexOfDistance++){
                 result+= listOfDistances[indexOfDistance].word + " distancia : " + listOfDistances[indexOfDistance].distance  + " ";
             }
-        alert(result);
+        alert(result);*/
         return listOfDistances;
     },
     /*calculateAverageOfDistances : function(){
@@ -191,7 +191,7 @@ var TextManager = Class.extend({
             }
         }
         this._TotalDifferentDistance = totalDistance;
-        alert("distancia diferente total : " + this._TotalDifferentDistance);
+        //alert("distancia diferente total : " + this._TotalDifferentDistance);
         //return totalDistance;
     },
     calculatePercentagePerDistance : function(pListOfDistances){
@@ -203,11 +203,11 @@ var TextManager = Class.extend({
             listPercentagePerDistance.push(percentageOfDistance);
         } 
         listPercentagePerDistance.sort();
-        var result = "";
+        /*var result = "";
         for(var caca = 0 ;  caca<listPercentagePerDistance.length ; caca++){
             result+= "-" + listPercentagePerDistance[caca] + " - ";
         }
-        alert(result);
+        alert(result);*/
         //this._ListOfPercentagePerDistance = listPercentagePerDistance;
         return listPercentagePerDistance;
     },
@@ -226,12 +226,12 @@ var TextManager = Class.extend({
             }
         );
 
-        for(var index = 0 ; index<listOfIndividuals.length ; index++){
+        /*for(var index = 0 ; index<listOfIndividuals.length ; index++){
             result+=listOfIndividuals[index].getWordString() + " distancia : " + 
                     listOfIndividuals[index].getDistance() + " peso: " + 
                     listOfIndividuals[index].getWeigth() + " //// ";
         }
-        alert(result);
+        alert(result);*/
         return listOfIndividuals;
     }
 
