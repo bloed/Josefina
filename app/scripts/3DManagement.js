@@ -50,7 +50,7 @@ var ThreeDManagement=Class.extend({
         var textMaterial = new THREE.MeshLambertMaterial({color: pColor})  //0xff3300
         var text = new THREE.Mesh(textGeometry, textMaterial);
         text.position.x = this.calculateCoordenate(pIndividual.getDistance()-pMinValues[1], pAverageValues[1])-(PLANE_SIZE/2)-20;
-        text.position.y = 5 + this.calculateCoordenateY(pIndividual.getWeigth()-pMinValues[0], pAverageValues[0]); //for it to stick out of the plane as a floor
+        text.position.y = 5 + this.calculateCoordenateY(pIndividual.getWeigth()-pMinValues[0], pAverageValues[0])-(PLANE_SIZE/2)-20;; //for it to stick out of the plane as a floor
         text.position.z = this.calculateCoordenate(pIndividual.getTotalDistance()-pMinValues[2], pAverageValues[2])-(PLANE_SIZE/2)-20;
 
         alert(text.position.x+ " "+ text.position.y + " "+ text.position.z);
@@ -83,7 +83,7 @@ var ThreeDManagement=Class.extend({
     },
     calculateCoordenateY: function(pValue, pMaxValue){
         if(pMaxValue!=0){
-            return (pValue*50/pMaxValue);
+            return (pValue*(PLANE_SIZE-10)/pMaxValue);
         }else{
             return 1;
         }
