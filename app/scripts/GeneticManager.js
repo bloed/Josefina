@@ -12,7 +12,7 @@ var GeneticManager= Class.extend({
     createInitialPopulation: function(){
         this._Population =this._TextManager.mainCalculateIndividuals();
 
-        //this._IndividualRepresentation.calculateChromosomaticRepresentation(this._Population);
+        this._IndividualRepresentation.calculateRepresentations(this._Population);
 
         //this.setRepresentationForInitialPopulation();//creates chromosomes for the first population
 

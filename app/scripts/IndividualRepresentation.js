@@ -13,15 +13,27 @@ var IndividualRepresentation= Class.extend({
     },
     calculateRepresentations: function(pListOfIndividuals){
         this.calculateMaxValues(pListOfIndividuals);
-        this.calculateWordRepresentation( pListOfIndividuals);
+        //this.calculateWordRepresentation( pListOfIndividuals);
+        //alert(this._TotalDistance);
+        //alert(this._distancePercentages);
         this.calculateAttributeRepresentation(this._distancePercentages, 'distance', this._TotalDistance, this._DistanceRepresentation);
         this.calculateAttributeRepresentation(this._weigthsPercentages, 'weigth', this._TotalWeigth, this._WeigthRepresentation);
-    }.
+        var string = "";
+        for(var index=0; index<this._WeigthRepresentation.length; index++){
+            string += this._WeigthRepresentation[index].attribute + " " +this._WeigthRepresentation[index].maxValue+" \n";
+        }
+        alert(string);
+        string = "";
+        for(var index=0; index<this._weigthsPercentages.length; index++){
+            string += this._weigthsPercentages[index].attribute + " " +this._weigthsPercentages[index].percentage+" \n";
+        } alert(string);
+        
+    },
     calculateWordRepresentation: function(pListOfIndividuals){
     	var minValue = 0; //word - distance - weigth
         var maxValue = 0; //word - distance - weigth
         
-    	for(var index = 0; index < arrayLength-1; index++){
+    	for(var index = 0; index < pListOfIndividuals.length-1; index++){
             var individual=pListOfIndividuals[index];
 
             maxValue = Math.floor((individual.getWeigth()+individual.getDistance())*MAX_VALUE_BITS/this._TotalValues);
@@ -72,7 +84,7 @@ var IndividualRepresentation= Class.extend({
                 this._TotalDistance += selection.getDistance();
                 arrayDistanceProcessed.push(selection.getDistance());
             }
-            if(arrayWeigthProcessed.indexOf(selection.getWeigth() === -1)){
+            if(arrayWeigthProcessed.indexOf(selection.getWeigth()) === -1){
                 this._TotalWeigth += selection.getWeigth();
                 arrayWeigthProcessed.push(selection.getWeigth());
             }
@@ -82,19 +94,21 @@ var IndividualRepresentation= Class.extend({
         var distancePercentage = 0;
 
         for (var index = 0; index < arrayDistanceProcessed.length; index++){
-            var percentage = Math.round((arrayDistanceProcessed[index]/this._TotalDistance)*100)
-            this._distancePercentages.push({distance: arrayDistanceProcessed[index], percentage: percentage});
+            var percentage = (arrayDistanceProcessed[index]/this._TotalDistance)*100
+            this._distancePercentages.push({attribute: arrayDistanceProcessed[index], percentage: percentage});
         }
         for (var index = 0; index < arrayWeigthProcessed.length; index++){
-             var percentage = Math.round((arrayWeigthProcessed[index]/this._TotalWeigth)*100)
-            this._weigthsPercentages.push(weigth: arrayWeigthProcessed[index], percentage: percentage});
+             var percentage = (arrayWeigthProcessed[index]/this._TotalWeigth)*100
+            this._weigthsPercentages.push({attribute: arrayWeigthProcessed[index], percentage: percentage});
         }
+        alert("pesp");
+        alert(this._TotalWeigth);
 
         sortingAttribute = function compare(AttributeA,AttributeB){
             if (AttributeA.percentage < AttributeB.percentage)
-                return 1;
-            if (AttributeA.percentage > AttributeB.percentage)
                 return -1;
+            if (AttributeA.percentage > AttributeB.percentage)
+                return 1;
             return 0;
             }
 
@@ -103,35 +117,43 @@ var IndividualRepresentation= Class.extend({
 
     },
     calculateAttributeRepresentation: function (pArrayAttributes, pAttribute, pTotalAttribute, pArrayRepresentation){
-        var percentage = 10;
+        var percentage = Math.floor(pArrayAttributes[0].percentage/10)*10+10;
         var percentageRange = 0;
-        var currentNumber = 0;
+        var currentNumber = Math.floor(pArrayAttributes[0].percentage/10)*10*pTotalAttribute/100;
         var maxValue = 0;
         var minValue = 0;
 
         for(var index = 0; index < pArrayAttributes.length; index++){
+            //alert(index + "index - percentage " + percentage+ "/n");
             if(Math.floor(pArrayAttributes[index].percentage/10)*10 < percentage){
                 percentageRange += pArrayAttributes[index].percentage;
+                //alert("percentage"+ percentageRange);
             }else{
                 var numberMaxValue = Math.floor((percentage-1)*pTotalAttribute/100);
-                maxValue = Math.floor(percentageRange*MAX_VALUE_BITS/100);
-                var increment = Math.floor(maxValue/(numberMaxValue - currentNumber));
+                maxValue = Math.floor(percentageRange*NUMBER_BITS_ATTRIBUTES/100);
+                var increment = Math.floor(maxValue/(numberMaxValue - currentNumber+1));
+                //alert(numberMaxValue + " "+ currentNumber);
                 for(var chromosome = currentNumber; chromosome <= numberMaxValue; chromosome++){
-
+                    //alert("cromosome: "+ chromosome);
                     pArrayRepresentation.push({attribute: chromosome, minValue: minValue, maxValue: minValue+increment});
                     minValue += increment +1;
                 }
-                minValue += increment + 1;
-                currentNumber += numberMaxValue+1;
-                percentage += 10;
+                currentNumber = Math.floor(Math.floor(pArrayAttributes[index].percentage/10)*10*pTotalAttribute/100);
+                percentage = Math.floor(pArrayAttributes[index].percentage/10)*10+10;
                 percentageRange = 0;
+                index--;
             }
         }
 
-        var numberMaxValue = Math.floor((percentage-1)*pTotalAttribute/100);
-        maxValue = Math.floor(percentageRange*MAX_VALUE_BITS/100);
-        var increment = Math.floor(maxValue/(numberMaxValue - currentNumber));
+        var numberMaxValue = pArrayAttributes[pArrayAttributes.length-1].attribute;
+        maxValue = Math.floor(percentageRange*NUMBER_BITS_ATTRIBUTES/100);
+        var increment = Math.floor(maxValue/(numberMaxValue - currentNumber+1));
+        alert( numberMaxValue+ " "+ maxValue + " "+ increment + " "+ currentNumber);
         for(var chromosome = currentNumber; chromosome <= numberMaxValue; chromosome++){
+
+            if( minValue+increment > NUMBER_BITS_ATTRIBUTES)
+                minValue=NUMBER_BITS_ATTRIBUTES-increment;
+
             pArrayRepresentation.push({attribute: chromosome, minValue: minValue, maxValue: minValue+increment});
             minValue += increment +1;
         }
