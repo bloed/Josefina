@@ -46,7 +46,7 @@ var GeneticManager= Class.extend({
         
     },
     createNewGenerations: function(){
-        alert(this._Population.length);
+        //alert(this._Population.length);
         var fitList = [];//list of individuals considered fit
         this.calculateMaxValues();
         for (var indexOfArray=0; indexOfArray<this._Population.length; indexOfArray++){
@@ -57,7 +57,7 @@ var GeneticManager= Class.extend({
         }
         
         var newIndividuals=[];
-        alert("fit: "+ fitList.length);
+        //alert("fit: "+ fitList.length);
         for(var reproductedIndividuals = 0; reproductedIndividuals < INDIVIDUALS_PER_REPRODUCTION; reproductedIndividuals++){
 
             var father=fitList[Math.floor(Math.random()*(fitList.length-1))];

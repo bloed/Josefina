@@ -37,10 +37,10 @@ var ThreeDManagement=Class.extend({
             
             this._renderer.render(this._scene, this._camera);
     },
-    addWord: function(pIndividual, pColor, pListValues){ //plistValues[0]=weight, [1]=distance [2]= totaldistance
+    addWord: function(pIndividual, pColor, pAverageValues, pMinValues){ //plistValues[0]=weight, [1]=distance [2]= totaldistance
         var textGeometry= new THREE.TextGeometry( pIndividual.getWordString(), {
                         
-                        size: this.calculateFont(pIndividual.getWeigth(), pListValues[0]),
+                        size: this.calculateFont(pIndividual.getWeigth()-pMinValues[0], pAverageValues[0]),
                         height: 1,
                         curveSegments: 2,
                         font: "helvetiker"
@@ -49,9 +49,9 @@ var ThreeDManagement=Class.extend({
 
         var textMaterial = new THREE.MeshLambertMaterial({color: pColor})  //0xff3300
         var text = new THREE.Mesh(textGeometry, textMaterial);
-        text.position.x = this.calculateCoordenate(pIndividual.getDistance(), pListValues[1])-(PLANE_SIZE/2)-20;
-        text.position.y = 5 + this.calculateCoordenateY(pIndividual.getWeigth(), pListValues[0]); //for it to stick out of the plane as a floor
-        text.position.z = this.calculateCoordenate(pIndividual.getTotalDistance(), pListValues[2])-(PLANE_SIZE/2)-20;
+        text.position.x = this.calculateCoordenate(pIndividual.getDistance()-pMinValues[1], pAverageValues[1])-(PLANE_SIZE/2)-20;
+        text.position.y = 5 + this.calculateCoordenateY(pIndividual.getWeigth()-pMinValues[0], pAverageValues[0]); //for it to stick out of the plane as a floor
+        text.position.z = this.calculateCoordenate(pIndividual.getTotalDistance()-pMinValues[2], pAverageValues[2])-(PLANE_SIZE/2)-20;
 
         alert(text.position.x+ " "+ text.position.y + " "+ text.position.z);
 
@@ -68,10 +68,10 @@ var ThreeDManagement=Class.extend({
     },
     calculateFont: function(pFontSize, pMaxSize){
         //TRY CATCH
-        if(pMaxSize!=0){
+        if(pMaxSize!=0 || pFontSize){
             return (pFontSize*FONT_MAXIMUM/pMaxSize)+FONT_MINIMUM;
         }else{
-            return 1;
+            return FONT_MINIMUM;
         }
     },
     calculateCoordenate: function(pValue, pMaxValue){
@@ -88,12 +88,14 @@ var ThreeDManagement=Class.extend({
             return 1;
         }
     },
-    insertWordsPlane: function(pListOfIndividuals, pValues, pMinValues){
+    insertWordsPlane: function(pListOfIndividuals, pMaxValues, pMinValues){
+        var difference = [0,0,0];
         for(var count=0; count <3; count++)
-            pValues[count] = pValues[count]-pMinValues[count];
+            difference[count] = pMaxValues[count]-pMinValues[count];
+        alert(difference[0] +" "+ difference[1]+" "+difference[2]);
 
         for(var index = 0; index < pListOfIndividuals.length; index++){
-            this.addWord(pListOfIndividuals[index], this.colors[index], pValues);
+            this.addWord(pListOfIndividuals[index], this.colors[index], difference, pMinValues);
             
         }
     }
