@@ -14,10 +14,9 @@ var GeneticOperator = Class.extend({
     },
     cross:function (pFather, pMother, pAmountOfBits){
         //variable point
-        //alert(pAmountOfBits);
+        
         var crossPoint=Math.floor((Math.random()*(pAmountOfBits-1))+1);
-        //alert(crossPoint);
-
+       
         pFather = pFather>>>(pAmountOfBits-crossPoint); //erease the less significant bits
         pFather = pFather<<(pAmountOfBits-crossPoint); //returns most significant bits to current position
         
@@ -25,15 +24,6 @@ var GeneticOperator = Class.extend({
         motherMask=motherMask<<(pAmountOfBits-crossPoint); //return mask to actual position
         pMother=pMother^motherMask; //exors the bits to get the less significant bits
         return this.mutation(pFather+pMother);
-    },
-    getBitsForAttributes: function(pAttribute1, pAttribute2){
-        var bitsNumber1 = Math.floor(Math.log(pAttribute1)/Math.log(2));
-        var bitsNumber2 = Math.floor(Math.log(pAttribute2)/Math.log(2));
-
-        if(bitsNumber1 >= bitsNumber2)
-            return bitsNumber1+1;
-        else
-            return bitsNumber2+1;
     }
 });
 

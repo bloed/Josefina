@@ -3,7 +3,7 @@ var TextManager = Class.extend({
         this._Text = "No current text.";
         this._UnvalidSymbols = [".",",",";","-","?","¿","!","¡",'\n',":","_","(",")",'"',"'"];//symbols to be ignored
         this._NonSignificantWords = [" ","el","la","se","a","o","no","ha","en","de","es","y","los","las", "que", "una","esto","esta","si"
-        ,"pero","con","sin","lo","ni","le","al","nos","por","su","da","un","tan","del","desde","ante","para","mas","tal","esa"];//words to be ignored
+        ,"pero","con","sin","lo","ni","le","al","nos","por","su","da","un","tan","del","desde","ante","para","mas","tal","esa", "como"];//words to be ignored
         this._ListOfWords = [];
         this._TotalDifferentDistance = 0;//used for weight
     },

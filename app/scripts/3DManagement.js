@@ -24,7 +24,7 @@ var ThreeDManagement=Class.extend({
         this.addFloor();
 
         this._camera.position.x = 0;
-        this._camera.position.y = 5;
+        this._camera.position.y = 100;
         this._camera.position.z = PLANE_SIZE/2;
         this._camera.lookAt(this._scene.position);
         
@@ -53,15 +53,12 @@ var ThreeDManagement=Class.extend({
         text.position.y = 5 + this.calculateCoordenateY(pIndividual.getWeigth()-pMinValues[0], pAverageValues[0])-(PLANE_SIZE/2)-20;; //for it to stick out of the plane as a floor
         text.position.z = this.calculateCoordenate(pIndividual.getTotalDistance()-pMinValues[2], pAverageValues[2])-(PLANE_SIZE/2)-20;
 
-        alert(text.position.x+ " "+ text.position.y + " "+ text.position.z);
-
         this._scene.add(text);
     },
     addFloor: function(){
-        //var planeGeometry= new THREE.PlaneGeometry(PLANE_SIZE, PLANE_SIZE, PLANE_SIZE);
+        
         var planeMaterial= new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('floor.jpg'), side: THREE.DoubleSide } );
-        //var plane= new THREE.Mesh(planeGeometry, planeMaterial); //plane starts like a wall we want it as a floor so we rotate it
-        //plane.rotation.x= -0.5*Math.PI; //math of 180°*/
+        
         var cube= new THREE.BoxGeometry( PLANE_SIZE+100, PLANE_SIZE+100, PLANE_SIZE+100);
         var cube2= new THREE.Mesh(cube, planeMaterial);
         this._scene.add(cube2);
@@ -92,7 +89,6 @@ var ThreeDManagement=Class.extend({
         var difference = [0,0,0];
         for(var count=0; count <3; count++)
             difference[count] = pMaxValues[count]-pMinValues[count];
-        alert(difference[0] +" "+ difference[1]+" "+difference[2]);
 
         for(var index = 0; index < pListOfIndividuals.length; index++){
             this.addWord(pListOfIndividuals[index], this.colors[index], difference, pMinValues);

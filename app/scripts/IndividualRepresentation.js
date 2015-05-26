@@ -18,26 +18,7 @@ var IndividualRepresentation= Class.extend({
 
         this.calculateWordRepresentation( pListOfIndividuals);
         this.calculateAttributeRepresentation(this._distancePercentages, 'distance', this._TotalDistance, this._DistanceRepresentation);
-        this.calculateAttributeRepresentation(this._weigthsPercentages, 'weigth', this._TotalWeigth, this._WeigthRepresentation);
-        
-        var string = "";
-        for(var index=0; index<this._WordRepresentation.length; index++){
-            string += this._WordRepresentation[index].attribute + " " +this._WordRepresentation[index].maxValue+" \n";
-        }
-        alert(string);
-        string = "";
-        for(var index=0; index<this._WeigthRepresentation.length; index++){
-            string += this._WeigthRepresentation[index].attribute + " " +this._WeigthRepresentation[index].maxValue+" \n";
-        }
-        alert(string);
-        string = "";
-        for(var index=0; index<this._DistanceRepresentation.length; index++){
-            string += this._DistanceRepresentation[index].attribute + " " +this._DistanceRepresentation[index].maxValue+" \n";
-        }
-        alert(string);
-        /*for(var index=0; index<this._weigthsPercentages.length; index++){
-            string += this._weigthsPercentages[index].attribute + " " +this._weigthsPercentages[index].percentage+" \n";
-        } alert(string);*/
+        this.calculateAttributeRepresentation(this._weigthsPercentages, 'weigth', this._TotalWeigth, this._WeigthRepresentation);       
         
     },
     calculateWordRepresentation: function(pListOfIndividuals){
@@ -116,7 +97,6 @@ var IndividualRepresentation= Class.extend({
         }
 
         //gets percentage for every type of distance
-        var distancePercentage = 0;
 
         for (var index = 0; index < arrayDistanceProcessed.length; index++){
             var percentage = (arrayDistanceProcessed[index]/this._TotalDistance)*100
@@ -162,8 +142,7 @@ var IndividualRepresentation= Class.extend({
                 }
                 currentNumber++;
                 percentage = Math.floor(pArrayAttributes[index].percentage/10)*10+10;
-                percentageRange = 0;
-                index--;
+                percentageRange = pArrayAttributes[index].percentage;
             }
         }
 
