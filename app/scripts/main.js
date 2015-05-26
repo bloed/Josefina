@@ -1,6 +1,6 @@
 var textManager = new TextManager();
 var geneticManager = new GeneticManager(textManager);
-//var genetic = new  GeneticOperator();
+//Main of the program. Coordinates everything.
 
 $("document").ready(function() {//the first to be executed
     $("#BTNLoad").bind("click",loadPhrase);
@@ -8,7 +8,6 @@ $("document").ready(function() {//the first to be executed
     $("#BTNLoad").toggle();
     $("#TXTPhraseToLoad").toggle(); 
     $("#LBLInformation").toggle();
-    //alert((Math.floor(27/10))*10);
 });
 function loadText(evt){
     var file = evt.target.files[0];//gets the file (and only) which was given by the user 
@@ -31,8 +30,5 @@ function loadPhrase(){
     textManager.getNWords(indexOfPhraseToLoad , AMOUNT_OF_WORDS , -1);
     geneticManager.mainReproduct();
     var threeDScreen= new ThreeDManagement();
-    threeDScreen.insertWordsPlane(geneticManager.getPopulation(), geneticManager.getMaxValues(), geneticManager.getMinValues());
-
-
-    
+    threeDScreen.insertWordsPlane(geneticManager.getPopulation(), geneticManager.getMaxValues(), geneticManager.getMinValues());  
 }

@@ -1,12 +1,13 @@
+//This class contains the individuals in the genetic algorithm.
 var Individual= Class.extend({
     init: function(pWeigth, pDistance, pWord){
         this._Weigth = pWeigth;
         this._Distance = pDistance;
         this._WordString = pWord;
         this._TotalDistance = 0;
-        this._WordRepresentation = 0;//chromosomatic representation
-        this._DistanceRepresentation = 0;
-        this._WeigthRepresentation = 0; //need to creeate the chromosomatic representation
+        this._WordRepresentation = 0;//chromosomatic representation of the word.
+        this._DistanceRepresentation = 0;//distance chromosome.
+        this._WeigthRepresentation = 0; //weight chromosome.
     },
     getWeigth: function(){
     	return this._Weigth;

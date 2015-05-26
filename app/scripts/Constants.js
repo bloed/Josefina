@@ -1,4 +1,4 @@
-// constants
+// Represents constants used throughout the code.
 var AMOUNT_OF_WORDS = 213;
 var MIN_AMOUNT_OF_INDIVIDUALS = 1000;
 var MIN_DIFFERENT_TYPE_OF_INDIVIDUALS = 10;
@@ -16,4 +16,5 @@ var PLANE_HEIGHT = 50;
 var MAX_INDIVIDUALS = 2000;
 var BITS_ATTRIBUTES = 16;
 var NUMBER_BITS_ATTRIBUTES = 65535; 
+var GROUP_BY_TENS = 9;
 
