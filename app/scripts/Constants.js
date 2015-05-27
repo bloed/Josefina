@@ -1,6 +1,6 @@
 // Represents constants used throughout the code.
 var AMOUNT_OF_WORDS = 213;
-var MIN_AMOUNT_OF_INDIVIDUALS = 1000;
+var MIN_AMOUNT_OF_INDIVIDUALS = 700;
 var MIN_DIFFERENT_TYPE_OF_INDIVIDUALS = 10;
 var AMOUNT_OF_BITS = 16;
 var MAX_VALUE_BITS = 65535;

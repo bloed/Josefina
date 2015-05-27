@@ -18,7 +18,12 @@ var IndividualRepresentation= Class.extend({
 
         this.calculateWordRepresentation( pListOfIndividuals);
         this.calculateAttributeRepresentation(this._distancePercentages, 'distance', this._TotalDistance, this._DistanceRepresentation);
-        this.calculateAttributeRepresentation(this._weigthsPercentages, 'weigth', this._TotalWeigth, this._WeigthRepresentation);       
+        this.calculateAttributeRepresentation(this._weigthsPercentages, 'weigth', this._TotalWeigth, this._WeigthRepresentation);
+        var s = "";
+        for( var i =0; i<this._WordRepresentation.length; i++){
+            s+= this._WordRepresentation[i].attribute + " " +this._WordRepresentation[i].maxValue + "\n";
+        }
+        alert(s);       
         
     },
     calculateWordRepresentation: function(pListOfIndividuals){
@@ -131,7 +136,25 @@ var IndividualRepresentation= Class.extend({
             if(Math.floor(pArrayAttributes[index].percentage/10)*10 < percentage){
                 percentageRange += pArrayAttributes[index].percentage;
             }else{
-                var numberMaxValue = Math.floor((percentage-1)*pTotalAttribute/100);
+                var returnValues = this.addChromosomeRange(pArrayAttributes, percentageRange, percentage, currentNumber, minValue, pArrayRepresentation, pTotalAttribute);
+                currentNumber = returnValues[0];
+                currentNumber++;
+                minValue = returnValues[1];
+
+
+                percentage = Math.floor(pArrayAttributes[index].percentage/10)*10+10;
+                percentageRange = pArrayAttributes[index].percentage;
+                if(index == pArrayAttributes.length-1){
+                    this.addChromosomeRange(pArrayAttributes, percentageRange, percentage, currentNumber, minValue, pArrayRepresentation, pTotalAttribute);
+                    
+                }
+            }
+        }
+
+        
+    },
+    addChromosomeRange: function(pArrayAttributes, pPercentageRange, pPercentage, pCurrentNumber, pMinValue, pArrayRepresentation, pTotalAttribute){
+       /* var numberMaxValue = Math.floor((percentage-1)*pTotalAttribute/100);
                 maxValue = Math.floor(percentageRange*NUMBER_BITS_ATTRIBUTES/100);
                 var increment = Math.floor(maxValue/(numberMaxValue - currentNumber+1));
                 
@@ -140,25 +163,22 @@ var IndividualRepresentation= Class.extend({
                     minValue += increment +1;
                     currentNumber = chromosome;
                 }
-                currentNumber++;
-                percentage = Math.floor(pArrayAttributes[index].percentage/10)*10+10;
-                percentageRange = pArrayAttributes[index].percentage;
-            }
+*/
+        var numberMaxValue =Math.floor((pPercentage-1)*pTotalAttribute/100);
+        maxValue = Math.floor(pPercentageRange*NUMBER_BITS_ATTRIBUTES/100);
+        var increment = Math.floor(maxValue/(numberMaxValue - pCurrentNumber+1));
+
+        for(var chromosome = pCurrentNumber; chromosome <= numberMaxValue; chromosome++){
+
+            if( pMinValue+increment > NUMBER_BITS_ATTRIBUTES)
+                pMinValue=NUMBER_BITS_ATTRIBUTES-increment;
+
+            pArrayRepresentation.push({attribute: chromosome, minValue: pMinValue, maxValue: pMinValue+increment});
+            pMinValue += increment +1;
+            pCurrentNumber = chromosome;
         }
-
-        var numberMaxValue = pArrayAttributes[pArrayAttributes.length-1].attribute;
-        maxValue = Math.floor(percentageRange*NUMBER_BITS_ATTRIBUTES/100);
-        var increment = Math.floor(maxValue/(numberMaxValue - currentNumber+1));
-
-        for(var chromosome = currentNumber; chromosome <= numberMaxValue; chromosome++){
-
-            if( minValue+increment > NUMBER_BITS_ATTRIBUTES)
-                minValue=NUMBER_BITS_ATTRIBUTES-increment;
-
-            pArrayRepresentation.push({attribute: chromosome, minValue: minValue, maxValue: minValue+increment});
-            minValue += increment +1;
-        }
-    },
+        return [pCurrentNumber, pMinValue];
+    }, 
     getWordChromosomes: function(){
         return this._WordRepresentation;
     },
