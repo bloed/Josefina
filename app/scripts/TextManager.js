@@ -1,7 +1,7 @@
 var TextManager = Class.extend({
     init: function(){
         this._Text = "No current text.";
-        this._UnvalidSymbols = [".",",",";","-","?","¿","!","¡",'\n',":","_","(",")",'"',"'"];//symbols to be ignored
+        this._UnvalidSymbols = [".",",",";","-","?","¿","!","¡",'\n',":","_","(",")",'"',"'","n\\"];//symbols to be ignored
         this._NonSignificantWords = [" ","el","la","se","a","o","no","ha","en","de","es","y","los","las", "que", "una","esto","esta","si"
         ,"pero","con","sin","lo","ni","le","al","nos","por","su","da","un","tan","del","desde","ante","para","mas","tal","esa", "como"];//words to be ignored
         this._ListOfWords = [];
@@ -35,9 +35,12 @@ var TextManager = Class.extend({
         var currentSymbol = "";
         while(numberOfProcessedWords < pNumberOfWords && currentIndex < this._Text.length && currentIndex >= 0){
             currentSymbol = this._Text.charAt(currentIndex);
-            if (currentSymbol ==='\n'){//enter case
+            if (currentSymbol ==='\n'|| currentSymbol === 'n\\'){//enter case
                 currentWord="";
             }
+            currentSymbol = currentSymbol.toLowerCase().removeAccents();
+
+
             if (this.isValidSymbol(currentSymbol)){
                 if(currentSymbol === " "){//we have a space, a new word definitely was formed
                     currentWord = currentWord.toLowerCase();//only working with lowercased words
@@ -45,6 +48,7 @@ var TextManager = Class.extend({
                             currentWord = currentWord.split('').reverse().join('');
                         }
                     if (this.isValidWord(currentWord) && currentWord.length!==0){
+                        currentWord = currentWord.replace(/(\r\n|\n|\r)/gm,"");
                         this._ListOfWords.push(currentWord);                        
                         numberOfProcessedWords++;
                     }
