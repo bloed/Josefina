@@ -173,6 +173,23 @@ var TextManager = Class.extend({
         this.calculateMaxDistances(listOfWords);
         var listPercentagePerDistance = this.calculatePercentagePerDistance(listOfWords);
         var listOfIndividuals = this.calculateAllWeight(listOfWords,listPercentagePerDistance);
+
+        sortingFunction = function compare(AttributeA,AttributeB){
+            if (AttributeA.getDistance() < AttributeB.getDistance())
+                return 1;
+            if (AttributeA.getDistance() > AttributeB.getDistance())
+                return -1;
+            return 0;
+            }
+
+        listOfIndividuals.sort(sortingFunction);
+
+        var result = "";
+        for(var counter = 0; counter < listOfIndividuals.length; counter++){
+            result += listOfIndividuals[counter].getWordString() + " Distance = " + listOfIndividuals[counter].getDistance() +
+            " Weigth = " + listOfIndividuals[counter].getWeigth() + "\n";
+        }
+        alert(result);
         return listOfIndividuals;
     }
 

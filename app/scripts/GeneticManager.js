@@ -203,22 +203,21 @@ var GeneticManager= Class.extend({
         }
     },
     getMinValues: function(){
-        var arrayMin = [0,0,0]; //[0] weight, [1] distance, [2] totaldistance 
-        arrayMin[0] = this._Population[0].getWeigth();
-        arrayMin[1] = this._Population[0].getDistance();
-        arrayMin[2] = this._Population[0].getTotalDistance();
+        var minWeigth = this._Population[0].getWeigth();
+        var minDistance = this._Population[0].getDistance();
+        var minTotalDistance = this._Population[0].getTotalDistance();
         for(var index = 1; index < this._Population.length; index++){
             var selection = this._Population[index];
-            if(selection.getDistance() < arrayMin[1])
-                arrayMin[1] = selection.getDistance();
+            if(selection.getDistance() < minDistance)
+                minDistance = selection.getDistance();
 
-            if(selection.getWeigth() < arrayMin[0])
-                arrayMin[0] = selection.getWeigth();
+            if(selection.getWeigth() < minWeigth)
+                minWeigth = selection.getWeigth();
 
-            if(selection.getTotalDistance() < arrayMin[2])
-                arrayMin[2] = selection.getTotalDistance();
+            if(selection.getTotalDistance() < minTotalDistance)
+                minTotalDistance = selection.getTotalDistance();
         }
-        return arrayMin;
+        return [minWeigth, minDistance, minTotalDistance];
     }
 });
 

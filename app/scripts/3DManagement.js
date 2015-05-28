@@ -9,6 +9,13 @@ var ThreeDManagement=Class.extend({
         this._controls = new THREE.OrbitControls( this._camera );
         this._controls.damping = 0.2;
         this._controls.maxDistance = PLANE_SIZE/2+ PLANE_SIZE/4;
+        this._DistanceDifference = 0;
+        this._DistanceMinimum = 0;
+        this._WeigthDifference = 0;
+        this._WeigthMinimum = 0;
+        this._TotalDistanceDifference = 0;
+        this._TotalDistanceMinimum = 0;
+
 
         this._animation= function(){
             requestAnimationFrame(this._animation.bind(this));
@@ -22,6 +29,20 @@ var ThreeDManagement=Class.extend({
         this._scene.add( light );
 
         this.addFloor();
+
+        var planeW = 50; // pixels
+var planeH = 50; // pixels 
+var numW = 50; // how many wide (50*50 = 2500 pixels wide)
+var numH = 50; // how many tall (50*50 = 2500 pixels tall)
+var plane = new THREE.Mesh(
+    new THREE.PlaneGeometry( planeW*numW, planeH*numH, planeW, planeH ),
+    new THREE.MeshBasicMaterial( {
+        color: 0x000000,
+        wireframe: true
+    } )
+    );
+plane.rotation.x = Math.PI/2;
+this._scene.add(plane);
 
         this._camera.position.x = 0;
         this._camera.position.y = 100;
@@ -37,10 +58,10 @@ var ThreeDManagement=Class.extend({
             
             this._renderer.render(this._scene, this._camera);
     },
-    addWord: function(pIndividual, pColor, pAverageValues, pMinValues){ //plistValues[0]=weight, [1]=distance [2]= totaldistance
+    addWord: function(pIndividual, pColor){ 
         var textGeometry= new THREE.TextGeometry( pIndividual.getWordString(), {
                         
-                        size: this.calculateFont(pIndividual.getWeigth()-pMinValues[0], pAverageValues[0]),
+                        size: this.calculateFont(pIndividual.getWeigth() - this._WeigthMinimum, this._WeigthDifference),
                         height: 1,
                         curveSegments: 2,
                         font: "helvetiker"
@@ -49,9 +70,9 @@ var ThreeDManagement=Class.extend({
 
         var textMaterial = new THREE.MeshLambertMaterial({color: pColor})  //0xff3300
         var text = new THREE.Mesh(textGeometry, textMaterial);
-        text.position.x = this.calculateCoordenate(pIndividual.getDistance()-pMinValues[1], pAverageValues[1])-(PLANE_SIZE/2)-20;
-        text.position.y = 5 + this.calculateCoordenateY(pIndividual.getWeigth()-pMinValues[0], pAverageValues[0])-(PLANE_SIZE/2)-20;; //for it to stick out of the plane as a floor
-        text.position.z = this.calculateCoordenate(pIndividual.getTotalDistance()-pMinValues[2], pAverageValues[2])-(PLANE_SIZE/2)-20;
+        text.position.x = this.calculateCoordenate(pIndividual.getDistance()-this._DistanceMinimum, this._DistanceDifference)-(PLANE_SIZE/2);
+        text.position.y = 5 + this.calculateCoordenateY(pIndividual.getWeigth()-this._WeigthMinimum, this._WeigthDifference)-(PLANE_SIZE/2); //for it to stick out of the plane as a floor
+        text.position.z = this.calculateCoordenate(pIndividual.getTotalDistance()-this._TotalDistanceMinimum, this._TotalDistanceDifference)-(PLANE_SIZE/2);
 
         this._scene.add(text);
     },
@@ -85,13 +106,16 @@ var ThreeDManagement=Class.extend({
             return 1;
         }
     },
-    insertWordsPlane: function(pListOfIndividuals, pMaxValues, pMinValues){
-        var difference = [0,0,0];
-        for(var count=0; count <3; count++)
-            difference[count] = pMaxValues[count]-pMinValues[count];
+    insertWordsPlane: function(pListOfIndividuals, pMaxValues, pMinValues){ //[0] = Weigth, [1] = distance, [2] = totaldistance
+        this._WeigthMinimum = pMinValues[0];
+        this._DistanceMinimum = pMinValues[1];
+        this._TotalDistanceMinimum = pMinValues[2];
+        this._WeigthDifference = pMaxValues[0] - pMinValues[0];
+        this._DistanceDifference = pMaxValues[1] - pMinValues[1];
+        this._TotalDistanceDifference = pMaxValues[2] - pMinValues[2];
 
         for(var index = 0; index < pListOfIndividuals.length; index++){
-            this.addWord(pListOfIndividuals[index], this.colors[index], difference, pMinValues);
+            this.addWord(pListOfIndividuals[index], this.colors[index]);
             
         }
     }

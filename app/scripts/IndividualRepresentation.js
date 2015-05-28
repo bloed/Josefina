@@ -17,13 +17,23 @@ var IndividualRepresentation= Class.extend({
         this.calculateMaxValues(pListOfIndividuals);
 
         this.calculateWordRepresentation( pListOfIndividuals);
-        this.calculateAttributeRepresentation(this._distancePercentages, 'distance', this._TotalDistance, this._DistanceRepresentation);
-        this.calculateAttributeRepresentation(this._weigthsPercentages, 'weigth', this._TotalWeigth, this._WeigthRepresentation);
-        var s = "";
+        this.calculateAttributeRepresentation(this._distancePercentages, this._TotalDistance, this._DistanceRepresentation);
+        this.calculateAttributeRepresentation(this._weigthsPercentages, this._TotalWeigth, this._WeigthRepresentation);
+        /*var s = "";
         for( var i =0; i<this._WordRepresentation.length; i++){
             s+= this._WordRepresentation[i].attribute + " " +this._WordRepresentation[i].maxValue + "\n";
         }
-        alert(s);       
+        alert(s);
+        s ="";
+        for( var i =0; i<this._DistanceRepresentation.length; i++){
+            s+= this._DistanceRepresentation[i].attribute + " " +this._DistanceRepresentation[i].maxValue + "\n";
+        }
+        alert(s);
+        s ="";
+        for( var i =0; i<this._WeigthRepresentation.length; i++){
+            s+= this._WeigthRepresentation[i].attribute + " " +this._WeigthRepresentation[i].maxValue + "\n";
+        }
+        alert(s);   */           
         
     },
     calculateWordRepresentation: function(pListOfIndividuals){
@@ -124,16 +134,18 @@ var IndividualRepresentation= Class.extend({
         this._weigthsPercentages.sort(sortingAttribute);
 
     },
-    calculateAttributeRepresentation: function (pArrayAttributes, pAttribute, pTotalAttribute, pArrayRepresentation){
+    calculateAttributeRepresentation: function (pArrayAttributes, pTotalAttribute, pArrayRepresentation){ 
+
+        //pArrayAttributes: all different attributes porcentage, pTotalAttributes: total values of different attributes
+
         var percentage = Math.floor(pArrayAttributes[0].percentage/10)*10+10;
         var percentageRange = 0;
         var currentNumber = 0
-        var maxValue = 0;
         var minValue = 0;
 
         for(var index = 0; index < pArrayAttributes.length; index++){
             
-            if(Math.floor(pArrayAttributes[index].percentage/10)*10 < percentage){
+            if(Math.floor(pArrayAttributes[index].percentage) < percentage){  //
                 percentageRange += pArrayAttributes[index].percentage;
             }else{
                 var returnValues = this.addChromosomeRange(pArrayAttributes, percentageRange, percentage, currentNumber, minValue, pArrayRepresentation, pTotalAttribute);
@@ -154,18 +166,9 @@ var IndividualRepresentation= Class.extend({
         
     },
     addChromosomeRange: function(pArrayAttributes, pPercentageRange, pPercentage, pCurrentNumber, pMinValue, pArrayRepresentation, pTotalAttribute){
-       /* var numberMaxValue = Math.floor((percentage-1)*pTotalAttribute/100);
-                maxValue = Math.floor(percentageRange*NUMBER_BITS_ATTRIBUTES/100);
-                var increment = Math.floor(maxValue/(numberMaxValue - currentNumber+1));
-                
-                for(var chromosome = currentNumber; chromosome <= numberMaxValue; chromosome++){
-                    pArrayRepresentation.push({attribute: chromosome, minValue: minValue, maxValue: minValue+increment});
-                    minValue += increment +1;
-                    currentNumber = chromosome;
-                }
-*/
-        var numberMaxValue =Math.floor((pPercentage-1)*pTotalAttribute/100);
-        maxValue = Math.floor(pPercentageRange*NUMBER_BITS_ATTRIBUTES/100);
+     
+        var numberMaxValue =Math.floor((pPercentage-1)*pTotalAttribute/100); //gets maxValue of the chromosomatic range
+        var maxValue = Math.floor(pPercentageRange*NUMBER_BITS_ATTRIBUTES/100); 
         var increment = Math.floor(maxValue/(numberMaxValue - pCurrentNumber+1));
 
         for(var chromosome = pCurrentNumber; chromosome <= numberMaxValue; chromosome++){
