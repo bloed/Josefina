@@ -68,7 +68,7 @@ var ThreeDManagement=Class.extend({
         
         var planeMaterial= new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('floor.jpg'), side: THREE.DoubleSide } );
         
-        var cube= new THREE.BoxGeometry( PLANE_SIZE+100, PLANE_SIZE+100, PLANE_SIZE+100);
+        var cube= new THREE.BoxGeometry( PLANE_SIZE+110, PLANE_SIZE+110, PLANE_SIZE+110);
         var cube2= new THREE.Mesh(cube, planeMaterial);
         this._scene.add(cube2);
     },
@@ -82,14 +82,14 @@ var ThreeDManagement=Class.extend({
     },
     calculateCoordenate: function(pValue, pMaxValue){
         if(pMaxValue!=0){
-            return (pValue*(PLANE_SIZE-10)/pMaxValue);
+            return (pValue*(PLANE_SIZE)/pMaxValue);
         }else{
             return 1;
         }
     },
     calculateCoordenateY: function(pValue, pMaxValue){
         if(pMaxValue!=0){
-            return (pValue*(PLANE_SIZE-10)/pMaxValue);
+            return (pValue*(PLANE_SIZE)/pMaxValue);
         }else{
             return 1;
         }
