@@ -93,11 +93,13 @@ var TextManager = Class.extend({
         var currentSymbol = "";
         while(currentIndex < this._Text.length){
             currentSymbol = this._Text.charAt(currentIndex);
-            if (currentSymbol ==='\n'){//enter case
-                currentWord="";
+            if (currentSymbol.charCodeAt(0) === 191 ||currentSymbol.charCodeAt(0) === 161){//so it doesnt read ¿ or ¡
+                currentSymbol="";
             }
+            currentSymbol = currentSymbol.toLowerCase().removeAccents();
             if (this.isValidSymbol(currentSymbol)){
                 if(currentSymbol === " "){
+                    currentWord = currentWord.replace(/(\r\n|\n|\r)/gm,"");//take out enters
                     currentWord = currentWord.toLowerCase();
                     if (pWord === currentWord){
                         totalOfAppearances++;
