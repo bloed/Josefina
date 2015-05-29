@@ -59,7 +59,7 @@ var ThreeDManagement=Class.extend({
         var textMaterial = new THREE.MeshLambertMaterial({color: pColor})  //0xff3300
         var text = new THREE.Mesh(textGeometry, textMaterial);
         text.position.x = this.calculateCoordenate(pIndividual.getDistance()-this._DistanceMinimum, this._DistanceDifference)-(PLANE_SIZE/2);
-        text.position.y = 5 + this.calculateCoordenateY(pIndividual.getWeigth()-this._WeigthMinimum, this._WeigthDifference)-(PLANE_SIZE/2); //for it to stick out of the plane as a floor
+        text.position.y = this.calculateCoordenateY(pIndividual.getWeigth()-this._WeigthMinimum, this._WeigthDifference)-(PLANE_SIZE/2); //for it to stick out of the plane as a floor
         text.position.z = this.calculateCoordenate(pIndividual.getTotalDistance()-this._TotalDistanceMinimum, this._TotalDistanceDifference)-(PLANE_SIZE/2);
 
         this._scene.add(text);
