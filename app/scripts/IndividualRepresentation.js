@@ -19,8 +19,8 @@ var IndividualRepresentation= Class.extend({
         this.calculateWordRepresentation( pListOfIndividuals);
         this.calculateAttributeRepresentation(this._distancePercentages, this._TotalDistance, this._DistanceRepresentation);
         this.calculateAttributeRepresentation(this._weigthsPercentages, this._TotalWeigth, this._WeigthRepresentation);
-        /*var s = "";
-        for( var i =0; i<this._WordRepresentation.length; i++){
+        var s = "";
+        /*for( var i =0; i<this._WordRepresentation.length; i++){
             s+= this._WordRepresentation[i].attribute + " " +this._WordRepresentation[i].maxValue + "\n";
         }
         alert(s);
@@ -33,7 +33,7 @@ var IndividualRepresentation= Class.extend({
         for( var i =0; i<this._WeigthRepresentation.length; i++){
             s+= this._WeigthRepresentation[i].attribute + " " +this._WeigthRepresentation[i].maxValue + "\n";
         }
-        alert(s);*/             
+        alert(s);  */
         
     },
     calculateWordRepresentation: function(pListOfIndividuals){
@@ -72,6 +72,7 @@ var IndividualRepresentation= Class.extend({
                 return chromosome.attribute;
             }
         }
+        return (pArray[pArray.length-1].attribute);
     },
     getRepresentation: function(pAttribute, pArray){
 
@@ -83,8 +84,8 @@ var IndividualRepresentation= Class.extend({
                 var actualRange = Math.floor(Math.random() * (maximumRange + 1));
                 return (chromosome.minValue + actualRange);
             }
-        }
-        return (pArray[pArray.length-1].attribute);
+        }       
+        return (pArray[pArray.length-1].maxValue);
     },
     getWordRepresentation: function(){
         
