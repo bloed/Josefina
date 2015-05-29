@@ -116,7 +116,7 @@ var GeneticManager= Class.extend({
         var listOfWords = [];
         var finalIndividuals = [];
         var processedWords = [];
-        
+        alert("finales");
         for (var indexOfArray=0; indexOfArray<this._Population.length; indexOfArray++){
             listOfWords.push(this._Population[indexOfArray].getWordString());
         }

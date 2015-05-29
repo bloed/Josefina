@@ -30,19 +30,7 @@ var ThreeDManagement=Class.extend({
 
         this.addFloor();
 
-        var planeW = 50; // pixels
-var planeH = 50; // pixels 
-var numW = 50; // how many wide (50*50 = 2500 pixels wide)
-var numH = 50; // how many tall (50*50 = 2500 pixels tall)
-var plane = new THREE.Mesh(
-    new THREE.PlaneGeometry( planeW*numW, planeH*numH, planeW, planeH ),
-    new THREE.MeshBasicMaterial( {
-        color: 0x000000,
-        wireframe: true
-    } )
-    );
-plane.rotation.x = Math.PI/2;
-this._scene.add(plane);
+      
 
         this._camera.position.x = 0;
         this._camera.position.y = 100;

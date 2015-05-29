@@ -1,9 +1,20 @@
+String.prototype.removeAccents = function(){
+ return this
+         .replace(/[Ã¡Ã Ã£Ã¢Ã¤]/gi,"a")
+         .replace(/[Ã©Ã¨Â¨Ãª]/gi,"e")
+         .replace(/[Ã­Ã¬Ã¯Ã®]/gi,"i")
+         .replace(/[Ã³Ã²Ã¶Ã´Ãµ]/gi,"o")
+         .replace(/[ÃºÃ¹Ã¼Ã»]/gi, "u")
+         .replace(/[Ã§]/gi, "c")
+         .replace(/[Ã±]/gi, "n");
+};
+
 var TextManager = Class.extend({
     init: function(){
         this._Text = "No current text.";
-        this._UnvalidSymbols = [".",",",";","-","?","¿","!","¡",'\n',":","_","(",")",'"',"'","n\\"];//symbols to be ignored
+        this._UnvalidSymbols = [".",",",";","-","?",'¿',"!","¡",'\n',":","_","(",")",'"',"'","n\\"];//symbols to be ignored
         this._NonSignificantWords = [" ","el","la","se","a","o","no","ha","en","de","es","y","los","las", "que", "una","esto","esta","si"
-        ,"pero","con","sin","lo","ni","le","al","nos","por","su","da","un","tan","del","desde","ante","para","mas","tal","esa", "como"];//words to be ignored
+        ,"pero","con","sin","lo","ni","le","al","nos","por","su","da","un","tan","del","desde","ante","para","mas","tal","esa", "como","eso"];//words to be ignored
         this._ListOfWords = [];
         this._TotalDifferentDistance = 0;//used for weight
     },
@@ -21,7 +32,7 @@ var TextManager = Class.extend({
     },
     getAllText: function(file){
         var reader = new FileReader();
-        reader.readAsText(file);      
+        reader.readAsText(file,'ISO-8859-1');      
         reader.onload = function(e) {
             var contents = e.target.result;
             alert( "Got the file!");
@@ -35,12 +46,10 @@ var TextManager = Class.extend({
         var currentSymbol = "";
         while(numberOfProcessedWords < pNumberOfWords && currentIndex < this._Text.length && currentIndex >= 0){
             currentSymbol = this._Text.charAt(currentIndex);
-            if (currentSymbol ==='\n'|| currentSymbol === 'n\\'){//enter case
-                currentWord="";
+            if (currentSymbol.charCodeAt(0) === 191 ||currentSymbol.charCodeAt(0) === 161){//so it doesnt read ¿ or ¡
+                currentSymbol="";
             }
             currentSymbol = currentSymbol.toLowerCase().removeAccents();
-
-
             if (this.isValidSymbol(currentSymbol)){
                 if(currentSymbol === " "){//we have a space, a new word definitely was formed
                     currentWord = currentWord.toLowerCase();//only working with lowercased words
@@ -48,8 +57,8 @@ var TextManager = Class.extend({
                             currentWord = currentWord.split('').reverse().join('');
                         }
                     if (this.isValidWord(currentWord) && currentWord.length!==0){
-                        currentWord = currentWord.replace(/(\r\n|\n|\r)/gm,"");
-                        this._ListOfWords.push(currentWord);                        
+                        currentWord = currentWord.replace(/(\r\n|\n|\r)/gm,"");//take out enters
+                        this._ListOfWords.push(currentWord);
                         numberOfProcessedWords++;
                     }
                     currentWord = "";//word is rested and we are ready to read the next word
@@ -62,7 +71,14 @@ var TextManager = Class.extend({
         }
     },
     findIndexOfPhrase : function(pPhrase){//finds a phrase in all the text
-        return this._Text.indexOf(pPhrase);
+        var index =  this._Text.indexOf(pPhrase);
+        if(index===-1){
+            alert("Phrase was not found. Please be sure to dont search phrases that contain spanish symbols like : ñ, ¿ , ¡ , á , é , í , ó , ú , etc.");
+            return 0;
+        }
+        else{
+            return index;
+        }
     },
     isValidSymbol : function(pSymbol){
         return(this._UnvalidSymbols.indexOf(pSymbol) === -1);//if equals -1, then the symbol is not in the list then it is a valid symbol
@@ -194,6 +210,7 @@ var TextManager = Class.extend({
             " Weigth = " + listOfIndividuals[counter].getWeigth() + "\n";
         }
         alert(result);
+       
         return listOfIndividuals;
     }
 
