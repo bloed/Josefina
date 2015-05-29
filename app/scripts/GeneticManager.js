@@ -55,7 +55,7 @@ var GeneticManager= Class.extend({
                 fitList.push(this._Population[indexOfArray]);
             }
         }
-        
+
         var newIndividuals=[];
         
         for(var reproductedIndividuals = 0; reproductedIndividuals < INDIVIDUALS_PER_REPRODUCTION; reproductedIndividuals++){
@@ -68,12 +68,15 @@ var GeneticManager= Class.extend({
             
             var individualDistanceRepresentation = this._GeneticOperator.cross(father.getDistanceRepresentation(), mother.getDistanceRepresentation(), BITS_ATTRIBUTES);
             var individualDistance = this._IndividualRepresentation.getAttribute(individualDistanceRepresentation, this._IndividualRepresentation.getDistanceChromosomes());
-            
+           
             var individualWeigthRepresentation = this._GeneticOperator.cross(father.getWeigthRepresentation(), mother.getWeigthRepresentation(), BITS_ATTRIBUTES);
             var individualWeigth = this._IndividualRepresentation.getAttribute(individualWeigthRepresentation, this._IndividualRepresentation.getWeigthChromosomes());
 
             var newBorn = new Individual(individualWeigth, individualDistance, individualWord);
             newBorn.setRepresentations(individualWordRepresentation, individualDistanceRepresentation, individualWeigthRepresentation);
+            //alert(" papas : " + father.getWordString() + " + " +mother.getWordString() + " con pesos " + 
+            //        father.getWeigth() + " y " +  mother.getWeigth() + " con distancias  " + mother.getDistance() + " y " + father.getDistance());
+            //alert("hijo nuevo : " + individualWord + " con  peso " + individualWeigth + "con distancia : " + individualDistance);
             newIndividuals.push(newBorn);
         }
         
@@ -107,6 +110,7 @@ var GeneticManager= Class.extend({
             else{
                 //create new generation, replace, cross, etc.
                 this.replaceCurrentPopulation(this.createNewGenerations());
+                alert(this._Population.length);
             }
         }
         this.getFinalIndividuals();

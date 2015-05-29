@@ -33,7 +33,7 @@ var IndividualRepresentation= Class.extend({
         for( var i =0; i<this._WeigthRepresentation.length; i++){
             s+= this._WeigthRepresentation[i].attribute + " " +this._WeigthRepresentation[i].maxValue + "\n";
         }
-        alert(s);   */           
+        alert(s);*/             
         
     },
     calculateWordRepresentation: function(pListOfIndividuals){
@@ -84,6 +84,7 @@ var IndividualRepresentation= Class.extend({
                 return (chromosome.minValue + actualRange);
             }
         }
+        return (pArray[pArray.length-1].attribute);
     },
     getWordRepresentation: function(){
         
